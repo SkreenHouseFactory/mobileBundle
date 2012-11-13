@@ -58,7 +58,7 @@ $('.fav').live('click', function(){
 $('.signout').live('click', function(){
   Skhf.session.signout(function(){
     UI.loadUser();
-    $.mobile.changePage('/app_dev.php/m')
+    $.mobile.changePage(API.config.v3_root + 'm')
   });
   return false;
 })

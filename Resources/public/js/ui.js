@@ -29,7 +29,7 @@ UI = {
     } else {
       self.signin(function(){
         self.togglePlaylistProgram(trigger);
-        $.mobile.changePage('/app_dev.php/m/program/'+trigger.data('id'))
+        $.mobile.changePage(API.config.v3_root + 'm/program/'+trigger.data('id'))
       });
     }
   },
@@ -96,14 +96,14 @@ UI = {
   error: function(){
   },
   signin: function(callback) { // signin
-    $.mobile.changePage('/app_dev.php/m/signin?url='+escape(document.location))
-    //document.location = '/app_dev.php/m/signin?url='+escape(document.location);
+    $.mobile.changePage(API.config.v3_root + 'm/signin?url='+escape(document.location))
+    //document.location = API.config.v3_root + 'm/signin?url='+escape(document.location);
     this.signinCallback = callback;
   },
   loadSignin: function(callback) {
     var self = this;
     var easyXDMsocket = new easyXDM.Socket({
-        remote: API.config.popin + 'signin?createIframe=1&parcours=anonyme_favoris&session_uid=' + Skhf.session.uid,
+        remote: API.config.popin + 'signin?fromWebsite=mobile&createIframe=1&parcours=anonyme_favoris&session_uid=' + Skhf.session.uid,
         container: 'popin',
         props: {
             frameborder: "no",
@@ -122,7 +122,7 @@ UI = {
                 if (self.signinCallback != null) {
                   self.signinCallback();
                 } else {
-                  $.mobile.changePage('/app_dev.php/m/notifs')
+                  $.mobile.changePage(API.config.v3_root + 'm/notifs')
                 }
               });
     
