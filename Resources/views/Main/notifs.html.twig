@@ -1,0 +1,66 @@
+{% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
+
+{% block title %}Ma télé{% endblock %}
+
+{% block content %}
+
+
+<a data-theme="c" data-role="button" href="#" class="signout">
+  <i class="icon-add-plus"></i> Déconnexion
+</a>
+
+<ul id="notifs" data-role="listview" data-divider-theme="a" data-inset="true">
+  <li data-role="list-divider" role="heading">
+    Notifications (<span class="count"></span>)
+  </li>
+</ul>
+
+
+<ul id="selector" data-role="listview" data-divider-theme="a" data-inset="true">
+  <li data-role="list-divider" role="heading">
+    Vos playlist (<span class="count"></span>)
+  </li>
+</ul>
+
+<script>
+  $('#navbar a').removeClass('ui-btn-active');
+  $('#navbar #tomatv a').addClass('ui-btn-active');
+
+  console.log('script notifs');
+  //not connected
+  if (!Skhf.session.user) {
+    UI.signin(function(){
+      Skhf.session.sync();
+      $.mobile.changePage('/app_dev.php/m/notifs');
+    });
+
+  //load notifs + selector dynamically
+  } else {
+    
+    //load notifs
+    var container = $('#notifs');
+    $('.count', container).html(Skhf.session.datas.notifications.length);
+    for (k in Skhf.session.datas.notifications){
+      container.append('<li data-theme="c"><a target="_blank" href="'+Skhf.session.datas.notifications[k].link+'" rel="external"><img src="'+Skhf.session.datas.notifications[k].channel_ico+'" /><small>'+Skhf.session.datas.notifications[k].subtitle+'</small>'+Skhf.session.datas.notifications[k].title+'<h5>'+Skhf.session.datas.notifications[k].title_episode+'</h5></a></li>');
+      
+    }
+  
+    //load selector
+    var names = {tv: 'A la télé', cine: 'Au cinéma', replay: 'En Replay', vod: 'En vidéo à la demande' }
+    var container = $('#selector');
+    $('.count', container).html(Skhf.session.datas.queue.length);
+    API.query('GET', 
+              'www/slider/selector/' + Skhf.session.uid + '.json',
+              {
+               with_count_favoris: 1
+              },
+              function(json){
+                for (k in json) {
+                  container.append(('<li data-theme="c"><a href="{{ path('mobile_playlist', {'access': '_access_', 'session_uid': '_session_uid_'}) }}"><small>'+json[k].nb_programs+' programmes</small>'+names[json[k].name]+'</a></li>').replace('_access_', json[k].name).replace('_session_uid_', Skhf.session.uid));
+                }
+                container.listview('refresh');
+    });
+
+  }
+</script>
+{% endblock %}

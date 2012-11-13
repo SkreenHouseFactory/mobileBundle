@@ -1,0 +1,61 @@
+{% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
+
+{% block title %}{{ program.title }}{% endblock %}
+
+{% block content %}
+
+    <div style="text-align:center;">
+      {% if program.teaser %}
+        <video src="{{ program.teaser.player.url }}"
+             controls
+             height=400 width=300
+             poster="{{ program.picture }}"
+             style="box-shadow: 0px 0px 25px #000;">
+        </video>
+      {% else %}
+        <img src="{{ program.picture }}" alt="image" style="box-shadow: 0px 0px 25px #000;" />
+      {% endif %}
+    </div>
+    <a data-theme="c" data-id="{{ program.id }}" data-role="button" href="#" class="fav">
+      <i class="icon-add-plus"></i> Ajouter à ma télé
+    </a>
+    <ul data-role="listview" data-divider-theme="a" data-inset="true">
+
+      {% for type,name in offers if attribute(program.boutons[0], type)|length > 0 %}
+        <li data-role="list-divider" role="heading">
+          {{ name }}
+        </li>
+        {% if type == 'theaters' %}
+          <li data-theme="c">
+            <a href="{{ path('mobile_cinema', {id: program.id}) }}" data-transition="slide">
+              <small style="float:right">A l'affiche dans {{ program.boutons[0].theaters|split(',')|length }} cinémas</small>
+              Chercher une salle dans les environs
+            </a>
+          </li>
+        {% else %}
+        {% for item in attribute(program.boutons[0], type) %}
+          <li data-theme="c">
+              {% if type == 'deportes' %}
+              <a href="{{ path('mobile_signin', {url: app.request.attributes.get('_route')}) }}" data-transition="slide">
+              {% else %}
+              <a href="{{ item.url }}" rel="external">
+              {% endif %}
+                  <small style="float:right">
+                    {% if item.cost is defined %}
+                    {{ item.access.name }} {% if item.cost %}{{ item.cost }} &euro;{% endif %}
+                    {% else %}
+                    {{ item.broadcastdate }}
+                    {% endif %}
+                  </small>
+                  {{ item.channel_name }}
+                  <h5>{{ item.episode_title }}</h5>
+              </a>
+          </li>
+        {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+<script>
+  var destination = document.location;
+</script>
+{% endblock %}

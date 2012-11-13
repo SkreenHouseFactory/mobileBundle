@@ -1,0 +1,25 @@
+#program
+mobile_home:
+    pattern:  /m
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:home }
+mobile_search:
+    pattern:  /m/search/{q}
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:search, q: null  }
+mobile_program:
+    pattern:  /m/program/{id}
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:program }
+mobile_signin:
+    pattern:  /m/signin
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:signin }
+mobile_cinema:
+    pattern:  /m/cinema/{id}
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:cinema }
+mobile_notifs:
+    pattern:  /m/notifs
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:notifs }
+mobile_playlist:
+    pattern:  /m/playlist/{access}
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:playlist }
+mobile_dialog:
+    pattern:  /m/dialog
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:dialog }

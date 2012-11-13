@@ -1,0 +1,59 @@
+{% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
+
+{% block title %}{{ program.title }}{% endblock %}
+{% block pageid %}cinemas-program{% endblock %}
+
+{% block content %}
+
+<h3>Séances près d'ici</h3>
+<ul data-role="listview" data-divider-theme="a" data-inset="true">
+  {% if latlng %}
+    {% if cinemas|length == 0 %}
+      <li data-theme="c">
+          <a href="#">
+              Aucun cinéma trouvé
+          </a>
+      </li>
+    {% else %}
+      {% for cinema in cinemas %}
+        <li data-role="list-divider" role="heading">
+          <small style="float:right">{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
+          {{ cinema.name }}
+        </li>
+        {% for day in days if attribute(cinema.schedules[0].horaires, day) is defined %}
+          <li data-theme="c">
+              <a href="#">
+                  <small style="float:right">{{ attribute(cinema.schedules[0].horaires, day)|replace({',': ', '}) }}</small>
+                  {{ day }}
+              </a>
+          </li>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  {% endif %}
+</ul>
+
+<script>
+UI.loadCinemas();
+function successCallback(position){
+  API.cookie('latlng', position.coords.latitude + ',' + position.coords.longitude);
+  console.log('geoloc successCallback', "Latitude : " + position.coords.latitude + ", longitude : " + position.coords.longitude);
+  //window.refresh('{{ path('mobile_cinema', {id: program.id}) }}?latlng='+position.coords.latitude+','+position.coords.longitude);
+  $.mobile.changePage( '{{ path('mobile_cinema', {id: program.id}) }}?latlng='+position.coords.latitude+','+position.coords.longitude );
+  navigator.geolocation.clearWatch(watchId);
+};
+function errorCallback(error){
+  switch(error.code){
+    case error.PERMISSION_DENIED:
+      $('#dialog').html('<p class="alert alert-error">Vous n\'avez pas autorisé l\'accès à votre position géographique.</p>');
+      break;      
+    case error.POSITION_UNAVAILABLE:
+      $('#dialog').html('<p class="alert alert-error">Votre emplacement géographique n\'a pas pu être déterminé.</p>');
+      break;
+    case error.TIMEOUT:
+      $('#dialog').html('<p class="alert alert-error">Le service n\'a pas répondu à temps.</p>');
+      break;
+  }
+};
+</script>
+{% endblock %}

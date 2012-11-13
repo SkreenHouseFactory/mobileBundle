@@ -1,0 +1,163 @@
+/*  */
+body{
+  background: url(/bundles/skreenhousefactorytv/images/liang/bg-repeat.png);
+    
+  &.ui-body-c h3, &.ui-overlay-c h3 {
+    color: white;
+    text-shadow: 0 1px 0 #333;
+  }
+
+  [data-role="page"] {
+    background: url(/bundles/skreenhousefactorytv/images/liang/bg-repeat.png);
+
+    #popin, #popin iframe {
+      height: 100%;
+    }
+    [data-role="navbar"] {
+      position: fixed;
+      bottom: 0;
+      left:0;
+      width: 100%;
+      z-index: 10;
+    }
+    [data-role="content"] {
+      padding-bottom: 100px;
+    }
+    h3.ui-title {
+      margin: .6em 10% .8em !important;
+    }
+    
+    .fav.flagged {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0044cc',GradientType=0);
+    background-color: #006DCC;
+    background-image: -moz-linear-gradient(top,#08C,#04C);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#08C),to(#04C));
+    background-image: -webkit-linear-gradient(top,#08C,#04C);
+    background-image: -o-linear-gradient(top,#08C,#04C);
+    background-image: linear-gradient(to bottom,#08C,#04C);
+    background-repeat: repeat-x;
+    color: white;
+    text-shadow: 0 1px 0 #333;
+    }
+  }
+  
+  ul {
+    li {
+      small {
+        float: right;
+        text-align: right;
+      }
+      
+      h5.ui-li-heading {
+      font-weight: normal;
+      color: #777;
+      font-size: 0.9em;
+      margin: 0;
+      }
+      
+      &.ui-li-has-thumb .ui-btn-inner a.ui-link-inherit {
+        min-height: 0;
+        padding-left: 60px;
+        
+        img.ui-li-thumb {
+          margin: 5px;
+        }
+      }
+    }
+  }
+}
+
+
+/* JQUERY MOBILE */
+.text-align-center {
+  text-align: center;
+}
+.text-align-right {
+  text-align: right;
+}
+
+/** CSS for non-standard jQuery Mobile styles or Codiqa components **/
+.split-wrapper {
+  width: 100%;
+  min-height: 200px;
+  clear: both;
+}
+@media all and (min-width: 650px) {
+  .content-secondary {
+    text-align: left;
+    float: left;
+    width: 45%;
+    background: none;
+    padding: 1.5em 6% 3em 0;
+    margin: 0;
+  }
+  .content-secondary {
+    background: none;
+    border-top: none;
+  }
+  .content-primary {
+    width: 45%;
+    float: right;
+    margin-right: 1%;
+    padding-right: 1%;
+  }
+  .content-primary ul:first-child {
+    margin-top: 0;
+  }
+  .content-secondary ul.ui-listview, .content-secondary ul.ui-listview-inset {
+    margin: 0;
+  }
+  .content-secondary ul.ui-listview .ui-li-divider, .content-secondary ul.ui-listview .ui-li {
+    border-radius: 0px;
+  }
+  .content-secondary ul.ui-listview .ui-li {
+    border-left: 0;
+    border-right: 0;
+  }
+  .content-secondary h2 {
+    position: absolute;
+    left: -9999px;
+  }
+  .content-secondary .ui-li-divider {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  .content-secondary {
+    margin: 0;
+    padding: 0;
+  }
+  
+}
+@media all and (min-width: 750px){
+  .content-secondary {
+    width: 34%;
+  }
+  .content-primary {
+    width: 60%;
+    padding-right: 1%;
+  }	
+}
+
+@media all and (min-width: 1200px){
+  .content-secondary {
+    width: 30%;
+    padding-right:6%;
+    margin: 0px 0 20px 5%;
+  }
+  .content-secondary ul {
+    margin: 0;
+  }
+  .content-secondary {
+    margin: 0;
+    padding: 0;
+  }
+  .content-primary {
+    width: 50%;
+    margin-right: 5%;
+    padding-right: 3%;
+  }
+  .content-primary {
+    width: 60%;
+  }
+}
+

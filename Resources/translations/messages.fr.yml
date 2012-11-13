@@ -1,0 +1,11 @@
+service:
+    name: mySkreen
+    description: 'Streaming, Replay et vidéo à la demande, Cinéma'
+    url: 'http://www.myskreen.com'
+
+mytv : Ma télé
+playlist:
+    tv: A la télé
+    vod: En vidéo à la demande
+    cine: Au cinéma
+    replay: En replay

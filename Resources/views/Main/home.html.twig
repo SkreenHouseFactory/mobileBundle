@@ -1,0 +1,18 @@
+{% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
+
+{% block title %}Votre télé s'agrandit !{% endblock %}
+
+{% block content %}
+<div style="text-align:center;">
+<img src="/bundles/skreenhousefactorytv/images/liang/icon_logo_1280.png" alt="image" style="margin: 10% 0 20% 0;">
+<form action="{{ path('mobile_search', {'q':''}) }}" method="get">
+<input name="q" id="searchinput1" placeholder="Un film, une émission, un acteur, etc" value="" type="search" />
+<input type="submit" data-theme="a" value="Lancer la recherche" />
+
+</form>
+</div>
+<script>
+  $('#navbar a').removeClass('ui-btn-active');
+  $('#navbar #tohome a').addClass('ui-btn-active');
+</script>
+{% endblock %}

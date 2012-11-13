@@ -1,0 +1,26 @@
+{% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
+
+{% block title %}Ma télé{% endblock %}
+
+{% block content %}
+
+<ul id="playlist" data-role="listview" data-divider-theme="a" data-inset="true">
+  <li data-role="list-divider" role="heading">
+    {{ ('playlist.'~app.request.get('access'))|trans }}
+  </li>
+  {% for program in programs %}
+    <li data-theme="c">
+        <a href="{{ path('mobile_program', {id: program.id}) }}">
+          <small>{{ program.format }}<br/>{{ program.year }}, {{ program.duration }}mn</small>
+          {{ program.title }}
+          <h5>{% if program.best_offer is defined and program.best_offer %}{{ program.best_offer.dispo|striptags }}{% endif %}</h5>
+        </a>
+    </li>
+  {% endfor %}
+</ul>
+
+<script>
+  $('#navbar a').removeClass('ui-btn-active');
+  $('#navbar #tomatv a').addClass('ui-btn-active');
+</script>
+{% endblock %}

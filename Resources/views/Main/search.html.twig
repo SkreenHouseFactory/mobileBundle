@@ -1,0 +1,27 @@
+{% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
+
+{% block title %}Recherche : {{ app.request.get('q') }}{% endblock %}
+
+{% block content %}
+
+<h3>{{ result.count.total }} programmes trouvés</h3>
+<ul data-role="listview" data-divider-theme="a" data-inset="true">
+{% for k,onglet in onglets %}
+  <li data-role="list-divider" role="heading">
+    <small style="float:right;">parmi {{ attribute(result.count, k) }} {{ onglet|lower }}</small>
+    {{ onglet }}
+  </li>
+  {% for program in attribute(result, onglet) %}
+    <li data-theme="c">
+        <a href="{{ path('mobile_program', {id: program.id}) }}">
+          <small>{{ program.format }}<br/>{{ program.year }}, {{ program.duration }}mn</small>
+          {{ program.title }}
+        </a>
+    </li>
+  {% endfor %}
+{% endfor %}
+</ul>
+<script>
+  var destination = document.location;
+</script>
+{% endblock %}

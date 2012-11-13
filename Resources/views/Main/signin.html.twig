@@ -1,0 +1,16 @@
+{% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
+
+{% block title %}Se connecter / créer un compte{% endblock %}
+
+{% block content %}
+<div id="popin"></div>
+<script>
+if (!Skhf.session.datas.email) {
+  $('#navbar a').removeClass('ui-btn-active');
+  $('#navbar #tomatv a').addClass('ui-btn-active');
+  UI.loadSignin();
+} else {
+  $.mobile.changePage('{{ app.request.get('url') }}')
+}
+</script>
+{% endblock %}
