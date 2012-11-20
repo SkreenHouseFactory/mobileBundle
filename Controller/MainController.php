@@ -138,6 +138,7 @@ class MainController extends Controller
       } else {
         $result = $api->fetch('www/home/mixte', array(
                      'skip_programs' => true,
+                     'disable_social' => true,
                      'strip_tags' => true
                   ));
 
