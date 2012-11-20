@@ -1,0 +1,23 @@
+{% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
+
+{% block title %}A la Télé ce soir{% endblock %}
+
+{% block content %}
+
+{% for channel in channels %}
+
+<ul id="channel-{{ channel.id }}" data-role="listview" data-divider-theme="a" data-inset="true">
+  <li data-role="list-divider" role="heading">
+    <img src="{{ channel.img }}" style="height:28px;right:10px;left:auto;"/>
+    {{ channel.name }}
+  </li>
+  {% for program in channel.programs %}
+    {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program} %}
+  {% endfor %}
+</ul>
+{% endfor %}
+
+<script>
+  UI.navbar('totv');
+</script>
+{% endblock %}

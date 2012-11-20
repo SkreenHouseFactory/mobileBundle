@@ -9,16 +9,15 @@
   <i class="icon-add-plus"></i> Déconnexion
 </a>
 
-<ul id="notifs" data-role="listview" data-divider-theme="a" data-inset="true">
-  <li data-role="list-divider" role="heading">
-    Notifications (<span class="count"></span>)
-  </li>
-</ul>
-
-
 <ul id="selector" data-role="listview" data-divider-theme="a" data-inset="true">
   <li data-role="list-divider" role="heading">
     Vos playlist (<span class="count"></span>)
+  </li>
+</ul>
+
+<ul id="notifs" data-role="listview" data-divider-theme="a" data-inset="true">
+  <li data-role="list-divider" role="heading">
+    Notifications (<span class="count"></span>)
   </li>
 </ul>
 
@@ -41,10 +40,10 @@
     var container = $('#notifs');
     $('.count', container).html(Skhf.session.datas.notifications.length);
     for (k in Skhf.session.datas.notifications){
-      container.append('<li data-theme="c"><a target="_blank" href="'+Skhf.session.datas.notifications[k].link+'" rel="external"><img src="'+Skhf.session.datas.notifications[k].channel_ico+'" /><small>'+Skhf.session.datas.notifications[k].subtitle+'</small>'+Skhf.session.datas.notifications[k].title+'<h5>'+Skhf.session.datas.notifications[k].title_episode+'</h5></a></li>');
+      container.append('<li data-theme="c" class="'+Skhf.session.datas.notifications[k].type+'"><a target="_blank" href="'+Skhf.session.datas.notifications[k].link+'" rel="external"><img src="'+Skhf.session.datas.notifications[k].channel_ico+'" />'+Skhf.session.datas.notifications[k].title+'<h5>'+Skhf.session.datas.notifications[k].title_episode+'<br/><span class="notif">'+Skhf.session.datas.notifications[k].subtitle+'</span></h5></a></li>');
       
     }
-  
+
     //load selector
     var names = {tv: 'A la télé', cine: 'Au cinéma', replay: 'En Replay', vod: 'En vidéo à la demande' }
     var container = $('#selector');

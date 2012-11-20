@@ -17,7 +17,7 @@
       {% endif %}
     </div>
     <a data-theme="c" data-id="{{ program.id }}" data-role="button" href="#" class="fav">
-      <i class="icon-add-plus"></i> Ajouter à ma télé
+      <i class="icon-add-plus"></i> Ajouter à vos playlists
     </a>
     <ul data-role="listview" data-divider-theme="a" data-inset="true">
 
@@ -28,19 +28,23 @@
         {% if type == 'theaters' %}
           <li data-theme="c">
             <a href="{{ path('mobile_cinema', {id: program.id}) }}" data-transition="slide">
-              <small style="float:right">A l'affiche dans {{ program.boutons[0].theaters|split(',')|length }} cinémas</small>
+              <small>Dans {{ program.boutons[0].theaters|split(',')|length }} cinémas</small>
               Chercher une salle dans les environs
             </a>
           </li>
         {% else %}
-        {% for item in attribute(program.boutons[0], type) %}
+        {% set nb=0 %}
+        {% for item in attribute(program.boutons[0], type) if (nb < 5) %}
+        {% set nb = nb+1 %}
           <li data-theme="c">
               {% if type == 'deportes' %}
               <a href="{{ path('mobile_signin', {url: app.request.attributes.get('_route')}) }}" data-transition="slide">
+              {% elseif (type == 'recs') %}
+              {#<a href="http://api.myskreen.com/api/1/icsfile/{{ item.id }}.ics" rel="external">#}
               {% else %}
               <a href="{{ item.url }}" rel="external">
               {% endif %}
-                  <small style="float:right">
+                  <small>
                     {% if item.cost is defined %}
                     {{ item.access.name }} {% if item.cost %}{{ item.cost }} &euro;{% endif %}
                     {% else %}

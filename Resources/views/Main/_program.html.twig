@@ -1,0 +1,13 @@
+<li data-theme="c">
+  <a href="{{ path('mobile_program', {id: program.id}) }}">
+    {{ program.title }}
+    {% if program.best_offer is defined %}
+    <h5>
+      {% if program.best_offer.episode_title %}{{ program.best_offer.episode_title }}, {% endif %}
+      {{ program.best_offer.broadcastdate }}
+      <br/>
+      {{ program.format }} - {{ program.year }}, {{ program.duration }}mn
+    </h5>
+    {% endif %}
+  </a>
+</li>

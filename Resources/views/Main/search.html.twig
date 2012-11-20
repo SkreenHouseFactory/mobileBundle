@@ -4,23 +4,34 @@
 
 {% block content %}
 
-<h3>{{ result.count.total }} programmes trouvés</h3>
-<ul data-role="listview" data-divider-theme="a" data-inset="true">
-{% for k,onglet in onglets %}
-  <li data-role="list-divider" role="heading">
-    <small style="float:right;">parmi {{ attribute(result.count, k) }} {{ onglet|lower }}</small>
-    {{ onglet }}
-  </li>
-  {% for program in attribute(result, onglet) %}
-    <li data-theme="c">
-        <a href="{{ path('mobile_program', {id: program.id}) }}">
-          <small>{{ program.format }}<br/>{{ program.year }}, {{ program.duration }}mn</small>
-          {{ program.title }}
-        </a>
+{% if format %}
+  <h3>{{ result.count }} {{ format }}</h3>
+  <ul data-role="listview" data-divider-theme="a" data-inset="true">
+    {% for program in result.programmes %}
+      {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program} %}
+    {% endfor %}
+  </ul>
+
+{% else %}
+  <h3>{{ result.count.total }} programmes trouvés</h3>
+  <ul data-role="listview" data-divider-theme="a" data-inset="true">
+  {% for k,onglet in onglets %}
+    <li data-role="list-divider" role="heading">
+      <small>parmi {{ attribute(result.count, k) }} {{ onglet|lower }}</small>
+      {{ onglet }}
     </li>
+    {% for program in attribute(result, onglet) %}
+      {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program} %}
+    {% endfor %}
+    {% if attribute(result.count, k) > 10 %}
+    <li data-theme="b">
+      <a href="{{ path('mobile_search', {q: app.request.get('q'), onglet: onglet}) }}">Voir les {{ attribute(result.count, k) }} {{ onglet|lower }}</a>
+    </li>
+    {% endif %}
   {% endfor %}
-{% endfor %}
-</ul>
+  </ul>
+{% endif%}
+
 <script>
   var destination = document.location;
 </script>

@@ -65,7 +65,7 @@ UI = {
       //console.log('UI.loadUserPrograms', ids[key], '.actions[data-id="' + ids[key] + '"] a.fav:not(.btn-primary)');
       $('.fav[data-id="' + ids[key] + '"]:not(.flagged)', elmt).addClass('flagged')
                                                                .find('.ui-btn-text')
-                                                               .html('<i class="icon-ok-sign icon-white"></i> Dans vos favoris');
+                                                               .html('<i class="icon-ok-sign icon-white"></i> Dans vos playlist');
     }
   },
   unloadUserPrograms: function(ids, elmt) {
@@ -160,5 +160,9 @@ UI = {
     } else {
       //$('#dialog').html('<p class="alert alert-error">Votre navigateur ne prend pas en compte la géolocalisation.</p>');
     }
+  },
+  navbar: function(active){
+    $('#navbar a').removeClass('ui-btn-active');
+    $('#navbar #' + active + ' a').addClass('ui-btn-active');
   }
 }

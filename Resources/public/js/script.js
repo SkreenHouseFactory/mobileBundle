@@ -10,18 +10,20 @@ $(document).bind( "pagechange", function( e, data ) {
   //history
   if (skLoaded == false) {
     skLoaded = true;
-    $('[role="navigation"] li').css('width','50%');
+    $('[role="navigation"] li').css('width','33.333%');
     $('[role="navigation"] li #historyback').parent().hide();
+    $('[role="navigation"] li#tohome').hide();
   } else {
     console.log("pageshow", history.state.initialHref, document.location.href);
     //history
     setTimeout(function(){
       if (history.state.initialHref == document.location.href) {
-        $('[role="navigation"] li').css('width','50%');
+        $('[role="navigation"] li').css('width','33.333%');
         $('[role="navigation"] li #historyback').parent().hide();
+        $('[role="navigation"] li#tohome').hide();
       } else {
         $('[role="navigation"] li #historyback').parent().show();
-        $('[role="navigation"] li').css('width','33.333%');
+        $('[role="navigation"] li').css('width','20%');
       }
     }, 500);
   }

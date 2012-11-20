@@ -5,34 +5,51 @@
 
 {% block content %}
 
+
+<form action="{{ path('mobile_cinema', {id: program.id}) }}" method="get">
+<input name="q" id="searchinput1" placeholder="75005, Marseille, UGC bastille, etc" value="{{ app.request.get('q') }}" type="search" />
+<input type="submit" data-theme="a" value="Lancer la recherche" />
+</form>
+{% if app.request.get('q') %}
+<a href="{{ path('mobile_cinema', {id: program.id}) }}" data-theme="a" data-role="button" data-icon="check">Trouver une séance près d'ici</a>
+<br/>
+<br/>
+<h3>Recherche : {{ app.request.get('q') }}</h3>
+{% else %}
+<br/>
+<br/>
 <h3>Séances près d'ici</h3>
-<ul data-role="listview" data-divider-theme="a" data-inset="true">
-  {% if latlng %}
+{% endif %}
+<ul id="cinemas" data-role="listview" data-divider-theme="a" data-inset="true">
+  {% if cinemas %}
     {% if cinemas|length == 0 %}
       <li data-theme="c">
-          <a href="#">
-              Aucun cinéma trouvé
-          </a>
+        <a href="#">
+          Aucun cinéma trouvé
+        </a>
       </li>
     {% else %}
       {% for cinema in cinemas %}
-        <li data-role="list-divider" role="heading">
-          <small style="float:right">{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
-          {{ cinema.name }}
-        </li>
-        {% for day in days if attribute(cinema.schedules[0].horaires, day) is defined %}
-          <li data-theme="c">
-              <a href="#">
-                  <small style="float:right">{{ attribute(cinema.schedules[0].horaires, day)|replace({',': ', '}) }}</small>
-                  {{ day }}
-              </a>
+        {% if cinema.adress is defined %}
+          <li data-role="list-divider" role="heading">
+            <small>{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
+            {{ cinema.name }}
           </li>
-        {% endfor %}
+          {% for day in days if attribute(cinema.schedules[0].horaires, day) is defined %}
+            <li data-theme="c">
+              <small>{{ attribute(cinema.schedules[0].horaires, day)|replace({',': ', '}) }}</small>
+              {{ day }}
+            </li>
+          {% endfor %}
+        {% endif %}
       {% endfor %}
     {% endif %}
   {% endif %}
 </ul>
 
+
+
+{% if app.request.get('q') is null %}
 <script>
 UI.loadCinemas();
 function successCallback(position){
@@ -40,7 +57,7 @@ function successCallback(position){
   console.log('geoloc successCallback', "Latitude : " + position.coords.latitude + ", longitude : " + position.coords.longitude);
   //window.refresh('{{ path('mobile_cinema', {id: program.id}) }}?latlng='+position.coords.latitude+','+position.coords.longitude);
   $.mobile.changePage( '{{ path('mobile_cinema', {id: program.id}) }}?latlng='+position.coords.latitude+','+position.coords.longitude );
-  navigator.geolocation.clearWatch(watchId);
+  //navigator.geolocation.clearWatch(watchId);
 };
 function errorCallback(error){
   switch(error.code){
@@ -56,4 +73,5 @@ function errorCallback(error){
   }
 };
 </script>
+{% endif %}
 {% endblock %}

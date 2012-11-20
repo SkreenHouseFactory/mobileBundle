@@ -3,8 +3,8 @@ mobile_home:
     pattern:  /m
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:home }
 mobile_search:
-    pattern:  /m/search/{q}
-    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:search, q: null  }
+    pattern:  /m/search/{q}/{onglet}
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:search, q: null, onglet: null  }
 mobile_program:
     pattern:  /m/program/{id}
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:program }
@@ -20,6 +20,12 @@ mobile_notifs:
 mobile_playlist:
     pattern:  /m/playlist/{access}
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:playlist }
+mobile_selection:
+    pattern:  /m/selection/{id}
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:selection, id: null }
+mobile_tv:
+    pattern:  /m/tv
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:tv }
 mobile_dialog:
     pattern:  /m/dialog
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:dialog }
