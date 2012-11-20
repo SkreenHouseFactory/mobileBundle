@@ -1,14 +1,11 @@
 {% extends 'SkreenHouseFactoryMobileBundle::layout.html.twig' %}
 
-{% block title %}Au programme{% endblock %}
+{% block title %}TV, Replay, VOD, Cinéa : à voir en ce moment{% endblock %}
 
 {% block content %}
 
 {% if home is defined %}
 <ul id="selection" data-role="listview" data-divider-theme="a" data-inset="true">
-  <li data-role="list-divider" role="heading">
-    Au programme
-  </li>
   {% for pack in home.sliders if pack.id is defined and pack.id != 3772181 %}
     <li data-theme="c">
       <a href="{{ path('mobile_selection', {id: pack.id }) }}">
@@ -21,7 +18,7 @@
 {% else %}
 <ul id="selection" data-role="listview" data-divider-theme="a" data-inset="true">
   <li data-role="list-divider" role="heading">
-    {{ pack.name }}
+    {{ pack.name|striptags }}
   </li>
   {% for program in pack.programmes %}
     {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program} %}
@@ -29,7 +26,4 @@
 </ul>
 {% endif %}
 
-<script>
-  UI.navbar('selection');
-</script>
 {% endblock %}

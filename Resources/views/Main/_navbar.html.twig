@@ -1,21 +1,17 @@
+<a href="index.html" id="historyback" data-role="button" data-inline="true" data-theme="a" data-icon="arrow-l">Retour</a>
 <div data-role="navbar" data-iconpos="top">
   <ul>
-		<li>
-			<a href="#" id="historyback" data-theme="a" data-icon="arrow-l">
-				Retour
-			</a>
-		</li>
   	<li id="tohome">
   		<a href="{{ path('mobile_home') }}" data-theme="a" data-icon="search">Accueil</a>
   	</li>
   	<li id="tomatv">
   		<a href="{{ path('mobile_notifs') }}" data-theme="a" data-icon="star">Mes playlists <span class="notifications"></span></a>
   	</li>
-  	<li id="toselection">
-  		<a href="{{ path('mobile_selection') }}" data-theme="a" data-icon="grid">A voir</a>
-  	</li>
   	<li id="totv">
   		<a href="{{ path('mobile_tv') }}" data-theme="a" data-icon="grid">Ce soir à la TV</a>
+  	</li>
+  	<li id="tocine">
+  		<a href="{{ path('mobile_cinema') }}" data-theme="a" data-icon="grid">Au Cinéma</a>
   	</li>
   </ul>
 </div>

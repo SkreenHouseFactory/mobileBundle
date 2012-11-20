@@ -1,13 +1,13 @@
 <li data-theme="c">
-  <a href="{{ path('mobile_program', {id: program.id}) }}">
+  <a href="{% if cinema_id is defined %}{{ path('mobile_cinemaprogram', {id: program.id}) }}?cinema_id={{ cinema_id }}{% else %}{{ path('mobile_program', {id: program.id}) }}{% endif %}">
     {{ program.title }}
-    {% if program.best_offer is defined %}
     <h5>
-      {% if program.best_offer.episode_title %}{{ program.best_offer.episode_title }}, {% endif %}
-      {{ program.best_offer.broadcastdate }}
-      <br/>
+      {% if program.best_offer is defined %}
+        {% if program.best_offer.episode_title %}{{ program.best_offer.episode_title }}, {% endif %}
+        {{ program.best_offer.broadcastdate }}
+        <br/>
+      {% endif %}
       {{ program.format }} - {{ program.year }}, {{ program.duration }}mn
     </h5>
-    {% endif %}
   </a>
 </li>

@@ -27,7 +27,7 @@
         </li>
         {% if type == 'theaters' %}
           <li data-theme="c">
-            <a href="{{ path('mobile_cinema', {id: program.id}) }}" data-transition="slide">
+            <a href="{{ path('mobile_cinemaprogram', {id: program.id}) }}" data-transition="slide">
               <small>Dans {{ program.boutons[0].theaters|split(',')|length }} cinémas</small>
               Chercher une salle dans les environs
             </a>
@@ -38,9 +38,9 @@
         {% set nb = nb+1 %}
           <li data-theme="c">
               {% if type == 'deportes' %}
-              <a href="{{ path('mobile_signin', {url: app.request.attributes.get('_route')}) }}" data-transition="slide">
-              {% elseif (type == 'recs') %}
-              {#<a href="http://api.myskreen.com/api/1/icsfile/{{ item.id }}.ics" rel="external">#}
+              <a href="http://www.myskreen.com{{ program.seo_url }}" data-transition="slide">
+              {% elseif type == 'broadcasts' %}
+              <a href="{{ item.icsfile }}" rel="external">
               {% else %}
               <a href="{{ item.url }}" rel="external">
               {% endif %}

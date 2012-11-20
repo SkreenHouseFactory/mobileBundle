@@ -152,6 +152,7 @@ UI = {
     });
   },
   loadCinemas: function(){
+    console.log('UI.loadCinemas');
     if (navigator.geolocation) {
       watchId = navigator.geolocation.watchPosition(successCallback, 
                                                     errorCallback, 

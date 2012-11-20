@@ -4,14 +4,13 @@
 
 {% block content %}
 <div style="text-align:center;">
-<img src="/bundles/skreenhousefactorytv/images/liang/icon_logo_1280.png" alt="image" style="margin: 10% 0 20% 0;">
+<img src="/bundles/skreenhousefactorytv/images/liang/icon_logo_1280.png" alt="image" style="margin: 8% 0 20% 0;">
+</div>
 <form action="{{ path('mobile_search', {'q':''}) }}" method="get">
 <input name="q" id="searchinput1" placeholder="Un film, une émission, un acteur, etc" value="" type="search" />
 <input type="submit" data-theme="a" value="Lancer la recherche" />
 </form>
-</div>
-<script>
-  $('#navbar a').removeClass('ui-btn-active');
-  $('#navbar #tohome a').addClass('ui-btn-active');
-</script>
+<br/>
+<a href="{{ path('mobile_selection') }}" data-iconpos="right" data-role="button" data-theme="a" data-icon="arrow-r">TV, Replay, Vod et Cinéma : à voir en ce moment</a>
+
 {% endblock %}

@@ -11,9 +11,9 @@ mobile_program:
 mobile_signin:
     pattern:  /m/signin
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:signin }
-mobile_cinema:
-    pattern:  /m/cinema/{id}
-    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:cinema }
+mobile_cinemaprogram:
+    pattern:  /m/cinemaprogram/{id}
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:cinemaprogram }
 mobile_notifs:
     pattern:  /m/notifs
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:notifs }
@@ -26,6 +26,9 @@ mobile_selection:
 mobile_tv:
     pattern:  /m/tv
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:tv }
+mobile_cinema:
+    pattern:  /m/cinema
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:cinema }
 mobile_dialog:
     pattern:  /m/dialog
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:dialog }

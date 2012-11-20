@@ -50,6 +50,71 @@ class MainController extends Controller
     /**
     *
     */
+    public function cinemaAction(Request $request)
+    {
+      $result = null;
+      $api = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
+      if ($request->get('q')) {
+        $result = $api->fetch('schedule/cine', array(
+                      'q' => $request->get('q')
+                    ));
+      } elseif ($request->get('latlng')) {
+        list ($lat, $lng) = explode(',', $request->get('latlng'));
+        $result = $api->fetch('schedule/cine', array(
+                      'fromGeoloc' => true,
+                      'lat' => $lat,
+                      'long' => $lng
+                    ));
+      }
+      //echo $api->url;
+      return $this->render('SkreenHouseFactoryMobileBundle:Main:cinema.html.twig', array(
+                'cinemas' => $result ? (array)$result[0]->theaters : null,
+                'programs' => $result ? $result[1]->programs : null,
+             ));
+    }
+    
+    /**
+    *
+    */
+    public function cinemaprogramAction(Request $request)
+    {
+
+      $cinemas = null;
+      $api = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
+      if ($request->get('q') || $request->get('cinema_id')) {
+        $cinemas = $api->fetch('schedule/cine', array(
+                      'program_id' => $request->get('id'),
+                      'theater_ids' => $request->get('cinema_id'),
+                      'with_schedule' => true,
+                      'q' => $request->get('q')
+                    ));
+      } elseif ($request->get('latlng')) {
+        list ($lat, $lng) = explode(',', $request->get('latlng'));
+        $cinemas = $api->fetch('schedule/cine', array(
+                      'program_id' => $request->get('id'),
+                      'with_schedule' => true,
+                      'fromGeoloc' => true,
+                      'lat' => $lat,
+                      'long' => $lng
+                    ));
+      }
+
+      $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
+      $program = $api->fetch('program/'.$request->get('id'), array(
+                    'img_width' => 300,
+                    'img_height' => 400
+                  ));
+
+      return $this->render('SkreenHouseFactoryMobileBundle:Main:cinemaprogram.html.twig', array(
+                'program' => $program,
+                'cinemas' => $cinemas,
+                'days' => array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche')
+             ));
+    }
+
+    /**
+    *
+    */
     public function notifsAction(Request $request)
     {
       return $this->render('SkreenHouseFactoryMobileBundle:Main:notifs.html.twig', array(
@@ -72,8 +137,10 @@ class MainController extends Controller
                ));
       } else {
         $result = $api->fetch('www/home/mixte', array(
-                     'skip_programs' => true
+                     'skip_programs' => true,
+                     'strip_tags' => true
                   ));
+
         //echo $api->url;
         return $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
                  'home' => $result
@@ -148,50 +215,6 @@ class MainController extends Controller
     /**
     *
     */
-    public function cinemaAction(Request $request)
-    {
-
-      $cinemas = null;
-      if ($request->get('q')) {
-        $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
-        $cinemas = $api->fetch('schedule/cine', array(
-                      'program_id' => $request->get('id'),
-                      'with_schedule' => true,
-                      'q' => $request->get('q')
-                    ));
-        //print_r($cinemas);
-      } elseif ($request->get('latlng')) {
-        //$this->cinemas = Cinema::APIgetTheatersByIp($this->oProgramme->getId());
-        list ($lat, $lng) = explode(',', $request->get('latlng'));
-
-        $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
-        $cinemas = $api->fetch('schedule/cine', array(
-                      'program_id' => $request->get('id'),
-                      'with_schedule' => true,
-                      'fromGeoloc' => true,
-                      'lat' => $lat,
-                      'long' => $lng
-                    ));
-        //echo $api->url;
-        //print_r($cinemas);
-      }
-
-      $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
-      $program = $api->fetch('program/'.$request->get('id'), array(
-                    'img_width' => 300,
-                    'img_height' => 400
-                  ));
-
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:cinema.html.twig', array(
-                'program' => $program,
-                'cinemas' => $cinemas,
-                'days' => array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche')
-             ));
-    }
-    
-    /**
-    *
-    */
     public function programAction(Request $request)
     {
 
@@ -207,13 +230,13 @@ class MainController extends Controller
                              'player' => 'hls',
                              'quality' => 'HQ'
                            ));
-      echo $api->url;
+      //echo $api->url;
       //print_r($program->boutons);
       return $this->render('SkreenHouseFactoryMobileBundle:Main:program.html.twig', array(
                'program' => $program,
                'offers' => array('deportes' => 'Sur mySkreen', 
                                  'plays' => 'VOD & Replay', 
-                                 'recs' => 'A la télé', 
+                                 'broadcasts' => 'A la télé', 
                                  'theaters' => 'Au cinéma')
              ));
     }

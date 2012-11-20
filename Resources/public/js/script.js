@@ -11,7 +11,7 @@ $(document).bind( "pagechange", function( e, data ) {
   if (skLoaded == false) {
     skLoaded = true;
     $('[role="navigation"] li').css('width','33.333%');
-    $('[role="navigation"] li #historyback').parent().hide();
+    $('#historyback').hide();
     $('[role="navigation"] li#tohome').hide();
   } else {
     console.log("pageshow", history.state.initialHref, document.location.href);
@@ -19,11 +19,11 @@ $(document).bind( "pagechange", function( e, data ) {
     setTimeout(function(){
       if (history.state.initialHref == document.location.href) {
         $('[role="navigation"] li').css('width','33.333%');
-        $('[role="navigation"] li #historyback').parent().hide();
+        $('#historyback').hide();
         $('[role="navigation"] li#tohome').hide();
       } else {
-        $('[role="navigation"] li #historyback').parent().show();
-        $('[role="navigation"] li').css('width','20%');
+        $('#historyback').show();
+        $('[role="navigation"] li').css('width','25%');
       }
     }, 500);
   }
