@@ -151,13 +151,36 @@ UI = {
         }
     });
   },
-  loadCinemas: function(){
+  loadCinemas: function(url){
     console.log('UI.loadCinemas');
+
     if (navigator.geolocation) {
+      function successCallback(position){
+        var date = new Date();
+        date.setTime(date.getTime() + (30 * 60 * 1000));
+        API.cookie('latlng', position.coords.latitude + ',' + position.coords.longitude, date);
+        console.log('geoloc successCallback', "Latitude : " + position.coords.latitude + ", longitude : " + position.coords.longitude);
+      
+        $.mobile.changePage( url+'?latlng='+position.coords.latitude+','+position.coords.longitude );
+      }
+      function errorCallback(error){
+        console.log('UI.loadCinemas', 'error', error);
+        switch(error.code){
+          case error.PERMISSION_DENIED:
+            $('#dialog').html('<p class="alert alert-error">Vous n\'avez pas autorisé l\'accès à votre position géographique.</p>');
+            break;      
+          case error.POSITION_UNAVAILABLE:
+            $('#dialog').html('<p class="alert alert-error">Votre emplacement géographique n\'a pas pu être déterminé.</p>');
+            break;
+          case error.TIMEOUT:
+            $('#dialog').html('<p class="alert alert-error">Le service n\'a pas répondu à temps.</p>');
+            break;
+        }
+      }
       watchId = navigator.geolocation.watchPosition(successCallback, 
                                                     errorCallback, 
                                                     {enableHighAccuracy:true});
-      
+      console.log('UI.loadCinemas', 'watchPosition', watchId)
     } else {
       //$('#dialog').html('<p class="alert alert-error">Votre navigateur ne prend pas en compte la géolocalisation.</p>');
     }

@@ -17,7 +17,8 @@ $(document).bind( "pagechange", function( e, data ) {
     console.log("pageshow", history.state.initialHref, document.location.href);
     //history
     setTimeout(function(){
-      if (history.state.initialHref == document.location.href) {
+      if (history.state &&
+          history.state.initialHref == document.location.href) {
         $('[role="navigation"] li').css('width','33.333%');
         $('#historyback').hide();
         $('[role="navigation"] li#tohome').hide();
