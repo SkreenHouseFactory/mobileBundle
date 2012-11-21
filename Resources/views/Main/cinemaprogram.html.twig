@@ -50,14 +50,17 @@
 </ul>
 
 
-
 {% if app.request.get('q') is null and app.request.get('cinema_id') is null %}
 <script>
-if (!API.cookie('latlng')) {
-  setTimeout(function(){
-    UI.loadCinemas('{{ path('mobile_cinemaprogram', {id: program.id}) }}');
-  }, 1000);
-}
+$(document).ready(function(){  
+  if (!API.cookie('latlng')) {
+    setTimeout(function(){
+      UI.loadCinemas('{{ path('mobile_cinemaprogram', {id: program.id}) }}');
+    }, 1000);
+  } else if (document.location.href.indexOf('?latlng=') == -1) {
+    $.mobile.changePage( '{{ path('mobile_cinemaprogram', {id: program.id}) }}?latlng='+API.cookie('latlng') );
+  }
+});
 </script>
 {% endif %}
 {% endblock %}

@@ -56,12 +56,16 @@
 
 {% if app.request.get('q') is null %}
 <script>
-$(document).ready(function(){  
-  setTimeout(function(){
-    if (!API.cookie('latlng')) {
-      UI.loadCinemas('{{ path('mobile_cinema') }}');
-    }
-  }, 1000);
+$(document).ready(function(){
+  if (!API.cookie('latlng')) {
+    setTimeout(function(){
+      if (!API.cookie('latlng')) {
+        UI.loadCinemas('{{ path('mobile_cinema') }}');
+      }
+    }, 1000);
+  } else if (document.location.href.indexOf('?latlng=') == -1) {
+    $.mobile.changePage( '{{ path('mobile_cinema') }}?latlng=' + API.cookie('latlng') );
+  }
 })
 </script>
 {% endif %}
