@@ -122,7 +122,8 @@ class MainController extends Controller
       $response->setPrivate();
       $response->setMaxAge(0);
       $response->headers->addCacheControlDirective('no-cache');
-      
+      $response->headers->addCacheControlDirective('must-revalidate');
+
       return $response;
     }
 
@@ -175,6 +176,7 @@ class MainController extends Controller
       $response->setPrivate();
       $response->setMaxAge(0);
       $response->headers->addCacheControlDirective('no-cache');
+      $response->headers->addCacheControlDirective('must-revalidate');
 
       return $response;
     }
