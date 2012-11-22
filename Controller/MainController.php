@@ -41,7 +41,7 @@ class MainController extends Controller
                    'with_best_offer' => true,
                    'tnt_only' => true
                 ));
-      //echo $api->url;
+      echo $api->url;
       return $this->render('SkreenHouseFactoryMobileBundle:Main:tv.html.twig', array(
                 'channels' => (array)$result->tnt
              ));
