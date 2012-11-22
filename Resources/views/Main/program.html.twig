@@ -38,7 +38,11 @@
         {% set nb = nb+1 %}
           <li data-theme="c">
               {% if type == 'deportes' %}
-              <a href="http://www.myskreen.com{{ program.seo_url }}" data-transition="slide">
+              {% if item.player.url is defined %}
+                <a href="{{ item.player.url }}" data-transition="slide">
+              {% else %}
+                <a href="http://www.myskreen.com{{ program.seo_url }}" data-transition="slide">
+              {% endif %}
               {% elseif type == 'broadcasts' %}
               <a href="{{ item.icsfile }}" target="_blank" rel="external">
               {% else %}
