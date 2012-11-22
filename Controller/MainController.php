@@ -117,8 +117,13 @@ class MainController extends Controller
     */
     public function notifsAction(Request $request)
     {
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:notifs.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:notifs.html.twig', array(
              ));
+      $response->setPrivate();
+      $response->setMaxAge(0);
+      $response->headers->addCacheControlDirective('no-cache');
+      
+      return $response;
     }
 
     /**
@@ -154,7 +159,6 @@ class MainController extends Controller
     */
     public function playlistAction(Request $request)
     {
-      
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
       $result = $api->fetch('www/slider/queue/' . $request->get('session_uid') . '/access/' . $request->get('access'), array(
                    'programs_only' => 1,
@@ -164,9 +168,15 @@ class MainController extends Controller
                    'nb_results' => 200
                 ));
       //echo $api->url;
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:playlist.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:playlist.html.twig', array(
                'programs' => $result
              ));
+      
+      $response->setPrivate();
+      $response->setMaxAge(0);
+      $response->headers->addCacheControlDirective('no-cache');
+
+      return $response;
     }
 
     /**
@@ -218,7 +228,6 @@ class MainController extends Controller
     */
     public function programAction(Request $request)
     {
-
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
       $program = $api->fetch('program/'.$request->get('id'), 
                            array(

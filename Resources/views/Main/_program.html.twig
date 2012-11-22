@@ -4,10 +4,12 @@
     <h5>
       {% if program.best_offer is defined %}
         {% if program.best_offer.episode_title %}{{ program.best_offer.episode_title }}, {% endif %}
-        {{ program.best_offer.broadcastdate }}
+        {{ program.format }} - {{ program.year }}, {{ program.duration }}mn
         <br/>
+        {{ program.best_offer.broadcastdate }}
+      {% else %}
+        {{ program.format }} - {{ program.year }}, {{ program.duration }}mn
       {% endif %}
-      {{ program.format }} - {{ program.year }}, {{ program.duration }}mn
     </h5>
   </a>
 </li>

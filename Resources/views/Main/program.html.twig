@@ -40,7 +40,7 @@
               {% if type == 'deportes' %}
               <a href="http://www.myskreen.com{{ program.seo_url }}" data-transition="slide">
               {% elseif type == 'broadcasts' %}
-              <a href="{{ item.icsfile }}" rel="external">
+              <a href="{{ item.icsfile }}" target="_blank" rel="external">
               {% else %}
               <a href="{{ item.url }}" rel="external">
               {% endif %}
