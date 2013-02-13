@@ -1,12 +1,13 @@
+{% set best_offer = program.best_offer is defined  ? program.best_offer : best_offer is defined  ? best_offer : '' %}
 <li data-theme="c">
   <a href="{% if cinema_id is defined %}{{ path('mobile_cinemaprogram', {id: program.id}) }}?cinema_id={{ cinema_id }}{% else %}{{ path('mobile_program', {id: program.id}) }}{% endif %}">
     {{ program.title }}
     <h5>
-      {% if program.best_offer is defined %}
-        {% if program.best_offer.episode_title %}{{ program.best_offer.episode_title }}, {% endif %}
+      {% if best_offer %}
+        {% if best_offer.episode_title is defined and best_offer.episode_title %}{{ best_offer.episode_title }}, {% endif %}
         {{ program.format }} - {{ program.year }}, {{ program.duration }}mn
         <br/>
-        {{ program.best_offer.broadcastdate }}
+        {{ best_offer.broadcastdate }}
       {% else %}
         {{ program.format }} - {{ program.year }}, {{ program.duration }}mn
       {% endif %}

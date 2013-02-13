@@ -56,13 +56,13 @@ $('#historyback').live('click', function(){
   return false;
 })
 $('.fav').live('click', function(){
-  UI.togglePlaylistProgram($(this));
+  UI.togglePlaylist($(this));
   return false;
 })
 $('.signout').live('click', function(){
   Skhf.session.signout(function(){
     UI.loadUser();
-    $.mobile.changePage(API.config.v3_root + 'm')
+    $.mobile.changePage(API.config.v3_root + '/m')
   });
   return false;
 })

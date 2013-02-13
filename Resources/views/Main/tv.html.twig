@@ -12,8 +12,8 @@
     <img src="{{ channel.img }}" style="height:28px;right:10px;left:auto;"/>
     {{ channel.name }}
   </li>
-  {% for program in channel.programs %}
-    {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program} %}
+  {% for o in channel.epg if o.program.duration > 10 %}
+    {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: o.program, best_offer: o} %}
   {% endfor %}
 </ul>
 {% endfor %}

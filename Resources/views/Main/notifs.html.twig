@@ -30,7 +30,7 @@
   if (!Skhf.session.user) {
     UI.signin(function(){
       Skhf.session.sync();
-      $.mobile.changePage(API.config.v3_root + 'm/notifs');
+      $.mobile.changePage(API.config.v3_root + '/m/notifs');
     });
 
   //load notifs + selector dynamically

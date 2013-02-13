@@ -1,34 +1,34 @@
 #program
 mobile_home:
-    pattern:  /m
+    pattern:  /
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:home }
 mobile_search:
-    pattern:  /m/search/{q}/{onglet}
+    pattern:  /search/{q}/{onglet}
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:search, q: null, onglet: null  }
 mobile_program:
-    pattern:  /m/program/{id}
+    pattern:  /program/{id}/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:program }
 mobile_signin:
-    pattern:  /m/signin
+    pattern:  /signin/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:signin }
 mobile_cinemaprogram:
-    pattern:  /m/cinemaprogram/{id}
+    pattern:  /cinemaprogram/{id}/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:cinemaprogram }
 mobile_notifs:
-    pattern:  /m/notifs
+    pattern:  /notifs/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:notifs }
 mobile_playlist:
-    pattern:  /m/playlist/{access}
+    pattern:  /playlist/{access}/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:playlist }
 mobile_selection:
-    pattern:  /m/selection/{id}
+    pattern:  /selection/{id}
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:selection, id: null }
 mobile_tv:
-    pattern:  /m/tv
+    pattern:  /tv/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:tv }
 mobile_cinema:
-    pattern:  /m/cinema
+    pattern:  /cinema/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:cinema }
 mobile_dialog:
-    pattern:  /m/dialog
+    pattern:  /dialog/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:dialog }

@@ -7,7 +7,7 @@
 {% if format %}
   <h3>{{ result.count }} {{ format }}</h3>
   <ul data-role="listview" data-divider-theme="a" data-inset="true">
-    {% for program in result.programmes %}
+    {% for program in result.programs %}
       {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program} %}
     {% endfor %}
   </ul>

@@ -1,7 +1,7 @@
 service:
-    name: mySkreen
-    description: 'Streaming, Replay et vidéo à la demande, Cinéma'
-    url: 'http://www.myskreen.com'
+    name: mySkreen.com
+    description: mySkreen
+    url: http://www.myskreen.com
 
 mytv : Ma télé
 playlist:

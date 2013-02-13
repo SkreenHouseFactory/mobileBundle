@@ -20,7 +20,7 @@
   <li data-role="list-divider" role="heading">
     {{ pack.name|striptags }}
   </li>
-  {% for program in pack.programmes %}
+  {% for program in pack.programs %}
     {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program} %}
   {% endfor %}
 </ul>

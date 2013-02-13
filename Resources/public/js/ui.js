@@ -15,7 +15,7 @@ UI = {
     }
   },
   //toggle favorite
-  togglePlaylistProgram: function(trigger){
+  togglePlaylist: function(trigger){
     var self = this;
     var value = trigger.data('id');
     var remove = trigger.data('theme') == 'b' ? true : false;
@@ -29,9 +29,14 @@ UI = {
     } else {
       self.signin(function(){
         self.togglePlaylistProgram(trigger);
-        $.mobile.changePage(API.config.v3_root + 'm/program/'+trigger.data('id'))
+        $.mobile.changePage(API.config.v3_root + '/m/program/'+trigger.data('id'))
       });
     }
+  },
+  //toggle btn
+  loadPlaylistTriggers: function(parameter, ids, elmt) {
+  },
+  unloadPlaylistTriggers: function(parameter, ids, elmt) {
   },
   //user infos
   loadUser: function() {
@@ -49,7 +54,7 @@ UI = {
     if (this.user) {
       console.log('UI.loadUser', 'notifications', Skhf.session.datas.notifications.length);
       this.loadUserPrograms();
-      $('#tomatv .notifications').html(' ('+Skhf.session.datas.notifications.length+')');
+      $('#tomatv .notifications').html(' (' + Skhf.session.datas.notifications.length + ')');
     } else {
       $('#tomatv .notifications').empty();
     }
@@ -96,8 +101,8 @@ UI = {
   error: function(){
   },
   signin: function(callback) { // signin
-    $.mobile.changePage(API.config.v3_root + 'm/signin?url='+escape(document.location))
-    //document.location = API.config.v3_root + 'm/signin?url='+escape(document.location);
+    $.mobile.changePage(API.config.v3_root + '/m/signin?url=' + escape(document.location))
+    //document.location = API.config.v3_root + '/m/signin?url='+escape(document.location);
     this.signinCallback = callback;
   },
   loadSignin: function(callback) {
@@ -122,9 +127,13 @@ UI = {
                 if (self.signinCallback != null) {
                   self.signinCallback();
                 } else {
-                  $.mobile.changePage(API.config.v3_root + 'm/notifs')
+                  $.mobile.changePage(API.config.v3_root + '/m/notifs')
                 }
-              });
+              },{
+				        with_notifications: 1,
+				        //with_friends: 1,
+				        //with_friends_playlists: 1
+				      });
     
             //paywall
             } else if (message[0] == "play") {
@@ -153,37 +162,12 @@ UI = {
   },
   loadCinemas: function(url){
     console.log('UI.loadCinemas');
-
-    if (navigator.geolocation) {
-      function successCallback(position){
-        var date = new Date();
-        date.setTime(date.getTime() + (30 * 60 * 1000));
-        API.cookie('latlng', position.coords.latitude + ',' + position.coords.longitude, date);
-        console.log('geoloc successCallback', "Latitude : " + position.coords.latitude + ", longitude : " + position.coords.longitude);
-      
-        $.mobile.changePage( url+'?latlng='+position.coords.latitude+','+position.coords.longitude );
-      }
-      function errorCallback(error){
-        console.log('UI.loadCinemas', 'error', error);
-        switch(error.code){
-          case error.PERMISSION_DENIED:
-            $('#dialog').html('<p class="alert alert-error">Vous n\'avez pas autorisé l\'accès à votre position géographique.</p>');
-            break;      
-          case error.POSITION_UNAVAILABLE:
-            $('#dialog').html('<p class="alert alert-error">Votre emplacement géographique n\'a pas pu être déterminé.</p>');
-            break;
-          case error.TIMEOUT:
-            $('#dialog').html('<p class="alert alert-error">Le service n\'a pas répondu à temps.</p>');
-            break;
-        }
-      }
-      watchId = navigator.geolocation.watchPosition(successCallback, 
-                                                    errorCallback, 
-                                                    {enableHighAccuracy:true});
-      console.log('UI.loadCinemas', 'watchPosition', watchId)
-    } else {
-      //$('#dialog').html('<p class="alert alert-error">Votre navigateur ne prend pas en compte la géolocalisation.</p>');
-    }
+    API.geolocation(function(position){
+      $.mobile.changePage( url+'?latlng=' + position);
+    },function(msg, code){
+      console.log('UI.loadCinemas', 'error_code:', code);
+      $('#dialog').html('<p class="alert alert-error">' + msg + '</p>');
+    });
   },
   navbar: function(active){
     $('#navbar a').removeClass('ui-btn-active');

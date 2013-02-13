@@ -21,7 +21,7 @@
     </a>
     <ul data-role="listview" data-divider-theme="a" data-inset="true">
 
-      {% for type,name in offers if attribute(program.boutons[0], type)|length > 0 %}
+      {% for type,name in offers if attribute(program.offers, type)|length > 0 %}
         <li data-role="list-divider" role="heading">
           {{ name }}
         </li>
@@ -34,29 +34,34 @@
           </li>
         {% else %}
         {% set nb=0 %}
-        {% for item in attribute(program.boutons[0], type) if (nb < 5) %}
+        {% for o in attribute(program.offers, type) if (nb < 5) %}
         {% set nb = nb+1 %}
+        {% set o_channel = attribute(program.datas_offers.channels, o.channel_id) %}
+        {% set o_access = attribute(program.datas_offers.access, o.access_id) %}
+        {% set o_episode = o.episode_id is defined ? attribute(program.datas_offers.episodes,  o.episode_id) : '' %}
           <li data-theme="c">
               {% if type == 'deportes' %}
-              {% if item.player.url is defined %}
-                <a href="{{ item.player.url }}" data-transition="slide">
+              {% if o.player.url is defined %}
+                <a href="{{ o.player.url }}" data-transition="slide">
               {% else %}
                 <a href="http://www.myskreen.com{{ program.seo_url }}" data-transition="slide">
               {% endif %}
               {% elseif type == 'broadcasts' %}
-              <a href="{{ item.icsfile }}" target="_blank" rel="external">
+              <a href="{{ o.icsfile }}" target="_blank" rel="external">
               {% else %}
-              <a href="{{ item.url }}" rel="external">
+              <a href="{{ o.url }}" rel="external">
               {% endif %}
                   <small>
-                    {% if item.cost is defined %}
-                    {{ item.access.name }} {% if item.cost %}{{ item.cost }} &euro;{% endif %}
+                    {% if o.cost is defined %}
+                    {{ o_access.name }} {% if o.cost %}{{ o.cost }} &euro;{% endif %}
                     {% else %}
-                    {{ item.broadcastdate }}
+                    {{ o.broadcastdate }}
                     {% endif %}
                   </small>
-                  {{ item.channel_name }}
-                  <h5>{{ item.episode_title }}</h5>
+                  {{ o_channel.name }}
+									{% if o_episode %}
+                  <h5>{{ o_episode.title }}</h5>
+									{% endif%}
               </a>
           </li>
         {% endfor %}

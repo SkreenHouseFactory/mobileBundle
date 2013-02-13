@@ -35,15 +35,18 @@ class MainController extends Controller
     {
 
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json', 2);
-      $result = $api->fetch('schedule/tvreplay', array(
+      /*$result = $api->fetch('schedule/tvreplay', array(
                    'date' => 'Ce soir',
                    'sort' => 'channels',
                    'with_best_offer' => true,
                    'tnt_only' => true
+                ));*/
+      $result = $api->fetch('schedule/epg', array(
+                   'timestamp' => strtotime(date('Y-m-d 20:00:00'))
                 ));
-      echo $api->url;
+      //echo $api->url;
       return $this->render('SkreenHouseFactoryMobileBundle:Main:tv.html.twig', array(
-                'channels' => (array)$result->tnt
+                'channels' => (array)$result->channels
              ));
     }
 
@@ -246,7 +249,7 @@ class MainController extends Controller
       //print_r($program->boutons);
       return $this->render('SkreenHouseFactoryMobileBundle:Main:program.html.twig', array(
                'program' => $program,
-               'offers' => array('deportes' => 'Sur mySkreen', 
+               'offers' => array(//'deportes' => 'Sur mySkreen', 
                                  'plays' => 'VOD & Replay', 
                                  'broadcasts' => 'A la télé', 
                                  'theaters' => 'Au cinéma')
