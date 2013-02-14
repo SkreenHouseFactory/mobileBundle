@@ -20,7 +20,6 @@
       <i class="icon-add-plus"></i> Ajouter à vos playlists
     </a>
     <ul data-role="listview" data-divider-theme="a" data-inset="true">
-
       {% for type,name in offers if attribute(program.offers, type)|length > 0 %}
         <li data-role="list-divider" role="heading">
           {{ name }}
@@ -68,6 +67,44 @@
         {% endif %}
       {% endfor %}
     </ul>
+		
+
+    <ul data-role="listview" data-divider-theme="a" data-inset="true">
+			<li data-role="list-divider" role="heading">
+				{{ program.title }}
+			</li>
+			<li data-theme="c">
+				{{ program.description }}
+			</li>
+		</ul>
+
+    <ul data-role="listview" data-divider-theme="a" data-inset="true">
+			<li data-role="list-divider" role="heading">
+				Casting
+			</li>
+       {% if program.director %}
+       <li data-role="list-divider" role="heading">{{ 'directed.by'|trans }} : </li> 
+       {% for pers in program.director %}
+			 <li data-theme="c"><a href="{{ path('mobile_search', {q: pers.name|url_encode }) }}">{{ pers.name }}</a></li>
+       {% endfor %}
+       {% endif %}
+       {% if program.casting %}
+       <li data-role="list-divider" role="heading">{{ 'actors'|trans }} : </li>
+       {% for pers in program.casting %}
+			 <li data-theme="c"><a href="{{ path('mobile_search', {q: pers.name|url_encode }) }}">{{ pers.name }}</a></li>
+       {% endfor %}
+		  	</li>
+       {% endif %}
+       {% if program.editor %}
+       <li data-role="list-divider" role="heading">{{ 'editors'|trans }} : </li>
+       {% for pers in program.editor %}
+			 <li data-theme="c"><a href="{{ path('mobile_search', {q: pers.name|url_encode }) }}">{{ pers.name }}</a></li>
+       {% endfor %}
+		  	</li>
+       {% endif %}
+
+		</ul>
+		
 <script>
   var destination = document.location;
 </script>

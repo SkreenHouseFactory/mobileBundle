@@ -35,8 +35,21 @@ UI = {
   },
   //toggle btn
   loadPlaylistTriggers: function(parameter, ids, elmt) {
+    console.log('UI.loadPlaylistTriggers', ids);
+		for (k in ids) {
+      $('.fav[data-id="' + ids[k] + '"]:not(.flagged)', elmt).addClass('flagged')
+                                                             .find('.ui-btn-text')
+                                                             .html('<i class="icon-ok-sign icon-white"></i> Dans vos playlists');
+
+		}
   },
   unloadPlaylistTriggers: function(parameter, ids, elmt) {
+    console.log('UI.unloadPlaylistTriggers', ids);
+		for (k in ids) {
+      $('.fav.flagged[data-id="' + ids[k] + '"]', elmt).removeClass('flagged')
+                                                       .find('.ui-btn-text')
+                                                       .html('<i class="icon-plus-sign"></i> Ajouter à vos playlists');
+		}
   },
   //user infos
   loadUser: function() {
@@ -66,22 +79,12 @@ UI = {
     var ids  = typeof ids  != 'undefined' ? ids  : Skhf.session.datas.queue;
     var elmt = typeof elmt != 'undefined' ? elmt : $('body');
     //console.log('UI.loadUserPrograms', ids, elmt);
-    for (key in ids) {
-      //console.log('UI.loadUserPrograms', ids[key], '.actions[data-id="' + ids[key] + '"] a.fav:not(.btn-primary)');
-      $('.fav[data-id="' + ids[key] + '"]:not(.flagged)', elmt).addClass('flagged')
-                                                               .find('.ui-btn-text')
-                                                               .html('<i class="icon-ok-sign icon-white"></i> Dans vos playlist');
-    }
+    this.loadPlaylistTriggers('like', ids, elmt);
   },
   unloadUserPrograms: function(ids, elmt) {
     var elmt = typeof elmt != 'undefined' ? elmt : $('body');
     //console.log('UI.unloadUserPrograms', ids, elmt);
-    for (key in ids) {
-      //console.log('UI.unloadUserPrograms', ids[key], '.actions[data-id="' + ids[key] + '"] a.fav:not(.btn-primary)');
-      $('.fav.flagged[data-id="' + ids[key] + '"]', elmt).removeClass('flagged')
-                                                         .find('.ui-btn-text')
-                                                         .html('<i class="icon-plus-sign"></i> Ajouter à votre télé');
-    }
+		this.unloadPlaylistTriggers('like', ids, elmt);
   },
   // -- insert loader
   appendLoader: function(elmt, timer) {

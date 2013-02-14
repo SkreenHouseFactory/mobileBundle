@@ -199,7 +199,7 @@ class MainController extends Controller
     public function searchAction(Request $request)
     {
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
-      $result = $api->fetch('search/'.urlencode($request->get('q')), array(
+      $result = $api->fetch('search/'.urlencode(str_replace('.', '%2E', $request->get('q'))), array(
                    'offset' => 0,
                    'nb_results' => $request->get('onglet') ? 500 : 10,
                    'fromWebsite' => 'mobile',
@@ -242,6 +242,7 @@ class MainController extends Controller
                              'with_icsfile' => true,
                              'with_teaser' => true,
                              'with_player' => true,
+                             'with_metadata' => true,
                              'player' => 'hls',
                              'quality' => 'HQ'
                            ));
