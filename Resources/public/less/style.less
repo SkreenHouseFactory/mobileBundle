@@ -1,7 +1,36 @@
 /*  */
 body{
   background: url(/bundles/skreenhousefactorytv/images/liang/bg-repeat.png);
-    
+
+	.modal {
+		width: 90%;
+		padding-right: 7%;
+		height: 100%;
+		background: rgba(255,255,255,0.9);
+		z-index: 2;
+		position: absolute;
+		display: none;
+		
+		#part-header {
+			display: none;
+		}
+		#fbconnect {
+			text-align: center;
+			background: white;
+			padding: 5%;
+		}
+		ul.ui-controlgroup {
+			padding-left: 35%;
+		}
+	}
+	
+	ul.alert {
+		li {
+			list-style: none;
+			padding: 5px;
+		}
+	}
+
   &.ui-body-c h3, &.ui-overlay-c h3 {
     color: white;
     text-shadow: 0 1px 0 #333;

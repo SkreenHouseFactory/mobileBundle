@@ -2,7 +2,6 @@
 var UI;
 UI = {
   user: '',
-  signinCallback: null,
   playlist: null,
   badge_notification: '<span class="badge">%count%</span>',
   loader: '<div class="progress progress-striped active"><div class="bar" style="width:0%"></div></div>',
@@ -65,7 +64,7 @@ UI = {
 
     this.user = Skhf.session.datas.email;
     if (this.user) {
-      console.log('UI.loadUser', 'notifications', Skhf.session.datas.notifications.length);
+      console.log('UI.loadUser', 'notifications', Skhf.session.datas.notifications);
       this.loadUserPrograms();
       $('#tomatv .notifications').html(' (' + Skhf.session.datas.notifications.length + ')');
     } else {
@@ -103,64 +102,27 @@ UI = {
   },
   error: function(){
   },
-  signin: function(callback) { // signin
-    $.mobile.changePage(API.config.v3_root + '/m/signin?url=' + escape(document.location))
-    //document.location = API.config.v3_root + '/m/signin?url='+escape(document.location);
-    this.signinCallback = callback;
+  signin: function(url) { // signin
+    console.log('UI.signin', url);
+		Skhf.session.callbackSignin = function() {
+			$.mobile.changePage(url);
+		}
+		this.loadSignin();
   },
   loadSignin: function(callback) {
     var self = this;
-    var easyXDMsocket = new easyXDM.Socket({
-        remote: API.config.popin + 'signin?fromWebsite=mobile&createIframe=1&parcours=anonyme_favoris&session_uid=' + Skhf.session.uid,
-        container: 'popin',
-        props: {
-            frameborder: "no",
-            scrolling: "no",
-            width: '100%',
-            height: '100%',
-            allowTransparency: 'true'
-        },
-        lazy: false,
-        onMessage: function(message, origin) {
-            message = $.parseJSON(message);
-            console.log('easyXDMsocket.onMessage', message);
-            var args = {'with_offers':1,'player':'hls'};
-            if (message[0] == "close") {
-              Skhf.session.sync(function() {
-                if (self.signinCallback != null) {
-                  self.signinCallback();
-                } else {
-                  $.mobile.changePage(API.config.v3_root + '/m/notifs')
-                }
-              },{
-				        with_notifications: 1,
-				        //with_friends: 1,
-				        //with_friends_playlists: 1
-				      });
-    
-            //paywall
-            } else if (message[0] == "play") {
-              alert('easyXdm play');
-    
-            //login/signup
-            } else if (message[0] == "success") {
-              //document.location = destination;
-            } else if (message[0] == "signout") {
-              Skhf.session.signout();
-              //document.location = destination;
-            } else if (message[0] == "successFacebook") {
-              var datas = message[1];
-              var args = {
-                fbuid: datas.fbuid,
-                session_uid: datas.session_uid
-              };
-              
-              API.query('POST', 'user', args, function (error, resp) {
-                if(error)
-                  return false;
-              });
-            }
-        }
+    API.quickLaunchModal('signup', function(){
+    	console.log('UI.loadSignin', 'callback', Skhf.session.datas);
+			$('.modal').trigger('create');
+			$('.modal ul.alert').addClass('ui-body ui-body-e');
+			$('.modal ul.ui-controlgroup li a').bind('click', function(){
+				$('.modal ul.ui-controlgroup li a').removeClass('ui-btn-active');
+				var trigger = $(this);
+				setTimeout(function(){
+					trigger.addClass('ui-btn-active');
+	    		console.log('UI.loadSignin', 'ui-controlgroup click');
+				}, 500);
+			});
     });
   },
   loadCinemas: function(url){
@@ -171,6 +133,12 @@ UI = {
       console.log('UI.loadCinemas', 'error_code:', code);
       $('#dialog').html('<p class="alert alert-error">' + msg + '</p>');
     });
+  },
+  play: function(id, args) {
+    console.log('UI.play', id, args);
+
+    Player.init($('.player'))
+    Player.playOccurrence(id, function(){}, args);
   },
   navbar: function(active){
     $('#navbar a').removeClass('ui-btn-active');

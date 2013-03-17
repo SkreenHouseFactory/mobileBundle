@@ -25,41 +25,45 @@
   $('#navbar a').removeClass('ui-btn-active');
   $('#navbar #tomatv a').addClass('ui-btn-active');
 
-  console.log('script notifs');
+  console.log('script notifs', Skhf.session.datas);
   //not connected
-  if (!Skhf.session.user) {
-    UI.signin(function(){
-      Skhf.session.sync();
-      $.mobile.changePage(API.config.v3_root + '/m/notifs');
-    });
+  if (!Skhf.session.datas.email) {
+    UI.signin(API.config.v3_root + '/m/notifs');
 
   //load notifs + selector dynamically
   } else {
-    
-    //load notifs
-    var container = $('#notifs');
-    $('.count', container).html(Skhf.session.datas.notifications.length);
-    for (k in Skhf.session.datas.notifications){
-      container.append('<li data-theme="c" class="'+Skhf.session.datas.notifications[k].type+'"><a target="_blank" href="'+Skhf.session.datas.notifications[k].link+'" rel="external"><img src="'+Skhf.session.datas.notifications[k].channel_ico+'" />'+Skhf.session.datas.notifications[k].title+'<h5>'+Skhf.session.datas.notifications[k].title_episode+'<br/><span class="notif">'+Skhf.session.datas.notifications[k].subtitle+'</span></h5></a></li>');
-      
-    }
 
-    //load selector
-    var names = {tv: 'A la télé', cine: 'Au cinéma', replay: 'En Replay', vod: 'En vidéo à la demande' }
-    var container = $('#selector');
-    $('.count', container).html(Skhf.session.datas.queue.length);
-    API.query('GET', 
-              'www/slider/selector/' + Skhf.session.uid + '.json',
-              {
-               with_count_favoris: 1
-              },
-              function(json){
-                for (k in json) {
-                  container.append(('<li data-theme="c"><a href="{{ path('mobile_playlist', {'access': '_access_', 'session_uid': '_session_uid_'}) }}"><small>'+json[k].nb_programs+' programmes</small>'+names[json[k].name]+'</a></li>').replace('_access_', json[k].name).replace('_session_uid_', Skhf.session.uid));
-                }
-                container.listview('refresh');
-    });
+		if (typeof viewNotifInitialized == 'undefined') {
+			$(document).bind("pagechange", function(){
+				viewNotifInitialized = true;
+			
+		    //load notifs
+		    var container = $('#notifs');
+		    $('.count', container).html(Skhf.session.datas.notifications.length);
+		    for (k in Skhf.session.datas.notifications){
+		      container.append('<li data-theme="c" class="'+Skhf.session.datas.notifications[k].type+'"><a target="_blank" href="'+Skhf.session.datas.notifications[k].link+'" rel="external"><img src="'+Skhf.session.datas.notifications[k].channel_ico+'" />'+Skhf.session.datas.notifications[k].title+'<h5>'+Skhf.session.datas.notifications[k].title_episode+'<br/><span class="notif">'+Skhf.session.datas.notifications[k].subtitle+'</span></h5></a></li>');
+		    }
+				container.listview('refresh');
+
+		    //load selector
+		    var names = {tv: 'A la télé', cine: 'Au cinéma', replay: 'En Replay', vod: 'En vidéo à la demande' }
+		    var container = $('#selector');
+		    $('.count', container).html(Skhf.session.datas.queue.length);
+		    API.query('GET', 
+		              'www/slider/selector/' + Skhf.session.uid + '.json',
+		              {
+		               with_count_favoris: 1
+		              },
+		              function(json){
+		                for (k in json) {
+		                  container.append(('<li data-theme="c"><a href="{{ path('mobile_playlist', {'access': '_access_', 'session_uid': '_session_uid_'}) }}"><small>'+json[k].nb_programs+' programmes</small>'+names[json[k].name]+'</a></li>').replace('_access_', json[k].name).replace('_session_uid_', Skhf.session.uid));
+		                }
+		                container.listview('refresh');
+		    });
+			});
+		}
 
   }
+	
 </script>
 {% endblock %}

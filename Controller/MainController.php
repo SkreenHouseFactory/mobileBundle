@@ -19,13 +19,22 @@ use SkreenHouseFactory\v3Bundle\Api\ApiManager;
 
 class MainController extends Controller
 {
+		protected function varnish($response){
+      $maxage = 3600;
+      $response->setPublic();
+      $response->setMaxAge($maxage);
+      $response->setSharedMaxAge($maxage);
+		}
+
     /**
     *
     */
     public function homeAction(Request $request)
     {
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:home.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:home.html.twig', array(
              ));
+			$this->varnish($response);
+			return $response;
     }
 
     /**
@@ -45,9 +54,11 @@ class MainController extends Controller
                    'timestamp' => strtotime(date('Y-m-d 20:00:00'))
                 ));
       //echo $api->url;
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:tv.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:tv.html.twig', array(
                 'channels' => (array)$result->channels
              ));
+			$this->varnish($response);
+			return $response;
     }
 
     /**
@@ -70,10 +81,12 @@ class MainController extends Controller
                     ));
       }
       //echo $api->url;
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:cinema.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:cinema.html.twig', array(
                 'cinemas' => $result ? (array)$result[0]->theaters : null,
                 'programs' => $result ? $result[1]->programs : null,
              ));
+			$this->varnish($response);
+			return $response;
     }
     
     /**
@@ -108,11 +121,13 @@ class MainController extends Controller
                     'img_height' => 400
                   ));
 
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:cinemaprogram.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:cinemaprogram.html.twig', array(
                 'program' => $program,
                 'cinemas' => $cinemas,
                 'days' => array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche')
              ));
+			$this->varnish($response);
+			return $response;
     }
 
     /**
@@ -141,7 +156,7 @@ class MainController extends Controller
                     'with_programs' => true
                   ));
         //echo $api->url;
-        return $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
+      	$response = $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
                  'pack' => $result
                ));
       } else {
@@ -152,10 +167,13 @@ class MainController extends Controller
                   ));
 
         //echo $api->url;
-        return $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
+      	$response = $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
                  'home' => $result
                ));
       }
+
+			$this->varnish($response);
+			return $response;
     }
 
     /**
@@ -187,15 +205,6 @@ class MainController extends Controller
     /**
     *
     */
-    public function dialogAction(Request $request)
-    {
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:dialog.html.twig', array(
-             ));
-    }
-
-    /**
-    *
-    */
     public function searchAction(Request $request)
     {
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
@@ -206,7 +215,7 @@ class MainController extends Controller
                    'format' => $request->get('onglet')
                 ));
 
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:search.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:search.html.twig', array(
                'result' => $result,
                'onglets' => array('films' => 'Films', 
                                   'documentaires' => 'Documentaires', 
@@ -216,16 +225,9 @@ class MainController extends Controller
                                   ),
                'format' => $request->get('onglet')
              ));
-    }
 
-    /**
-    *
-    */
-    public function signinAction(Request $request)
-    {
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:signin.html.twig', array(
-              'url' => $request->get('url')
-             ));
+			$this->varnish($response);
+			return $response;
     }
     
     /**
@@ -243,17 +245,20 @@ class MainController extends Controller
                              'with_teaser' => true,
                              'with_player' => true,
                              'with_metadata' => true,
-                             'player' => 'hls',
+                             //'player' => 'hls',
                              'quality' => 'HQ'
                            ));
       //echo $api->url;
       //print_r($program->boutons);
-      return $this->render('SkreenHouseFactoryMobileBundle:Main:program.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:program.html.twig', array(
                'program' => $program,
                'offers' => array(//'deportes' => 'Sur mySkreen', 
                                  'plays' => 'VOD & Replay', 
                                  'broadcasts' => 'A la télé', 
                                  'theaters' => 'Au cinéma')
              ));
+
+			$this->varnish($response);
+			return $response;
     }
 }

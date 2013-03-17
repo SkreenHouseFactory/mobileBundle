@@ -6,12 +6,14 @@
 
     <div style="text-align:center;">
       {% if program.teaser %}
-        <video src="{{ program.teaser.player.url }}"
+        {#}<video src="{{ program.teaser.player.url }}"
              controls
              height=400 width=300
              poster="{{ program.picture }}"
              style="box-shadow: 0px 0px 25px #000;">
-        </video>
+        </video>#}
+				<div class="player"></div>
+        <a href="#" data-play="{{ program.teaser.id }}" data-player-elmt=".player"><img src="{{ program.picture }}" alt="image" style="box-shadow: 0px 0px 25px #000;" /></a>
       {% else %}
         <img src="{{ program.picture }}" alt="image" style="box-shadow: 0px 0px 25px #000;" />
       {% endif %}
@@ -27,7 +29,7 @@
         {% if type == 'theaters' %}
           <li data-theme="c">
             <a href="{{ path('mobile_cinemaprogram', {id: program.id}) }}" data-transition="slide">
-              <small>Dans {{ program.boutons[0].theaters|split(',')|length }} cinémas</small>
+              <small>Dans {{ program.offers.theaters|split(',')|length }} cinémas</small>
               Chercher une salle dans les environs
             </a>
           </li>

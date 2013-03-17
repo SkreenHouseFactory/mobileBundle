@@ -30,9 +30,12 @@
       'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
       'https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js'
       '@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/jquery.cookies.min.js'
+    	'@SkreenHouseFactoryV3Bundle/Resources/public/bootstrap/js/bootstrap-modal.js'
       '@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/easyXDM.min.js'
       '@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/inheritance.js'
       '@SkreenHouseFactoryV3Bundle/Resources/public/js/core/*'
+      '@SkreenHouseFactoryV3Bundle/Resources/public/js/scripts/core/player.js'
+      '@SkreenHouseFactoryV3Bundle/Resources/public/js/scripts/core/fb.js'
       '@SkreenHouseFactoryMobileBundle/Resources/public/js/*'
       filter='?yui_js' 
       output='js/compiled/v3-mobile.js'  %}
@@ -47,6 +50,7 @@
       <h3>{% block title %}{% endblock %}</h3>
     </div>
     <div data-role="content">
+		<div class="modal"><div class="modal-body"></div></div>
     {% block content %}
     {% endblock %}
     {% include 'SkreenHouseFactoryMobileBundle:Main:_navbar.html.twig' %}
