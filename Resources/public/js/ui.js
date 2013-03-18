@@ -134,10 +134,19 @@ UI = {
       $('#dialog').html('<p class="alert alert-error">' + msg + '</p>');
     });
   },
+  //paywall
+  paywall: function(id, callback) {
+    var self = this;
+    console.log('UI.paywall', id);
+    API.quickLaunchModal('signin', function() {
+			$('.modal').trigger('create');
+      if (!Skhf.session.datas.email) {
+        self.paywall(id, callback);
+      }
+    },{parcours: 'anonyme_favoris', occurrence_id: id});
+  },
   play: function(id, args) {
     console.log('UI.play', id, args);
-
-    Player.init($('.player'))
     Player.playOccurrence(id, function(){}, args);
   },
   navbar: function(active){
