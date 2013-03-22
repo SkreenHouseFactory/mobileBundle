@@ -4,70 +4,61 @@
 
 {% block content %}
 
-    <div style="text-align:center;">
-      {% if program.teaser %}
-        {#}<video src="{{ program.teaser.player.url }}"
-             controls
-             height=400 width=300
-             poster="{{ program.picture }}"
-             style="box-shadow: 0px 0px 25px #000;">
-        </video>#}
-				<div class="player"></div>
-        <a href="#" data-play-autoload="{{ program.teaser.id }}" data-player-elmt=".player"><img src="{{ program.picture }}" alt="image" style="box-shadow: 0px 0px 25px #000;" /></a>
-      {% else %}
-        <img src="{{ program.picture }}" alt="image" style="box-shadow: 0px 0px 25px #000;" />
-      {% endif %}
-    </div>
-    <a data-theme="c" data-id="{{ program.id }}" data-role="button" href="#" class="fav">
-      <i class="icon-add-plus"></i> Ajouter à vos playlists
-    </a>
-    <ul data-role="listview" data-divider-theme="a" data-inset="true">
-      {% for type,name in offers if attribute(program.offers, type)|length > 0 %}
-        <li data-role="list-divider" role="heading">
-          {{ name }}
-        </li>
-        {% if type == 'theaters' %}
-          <li data-theme="c">
-            <a href="{{ path('mobile_cinemaprogram', {id: program.id}) }}" data-transition="slide">
-              <small>Dans {{ program.offers.theaters|split(',')|length }} cinémas</small>
-              Chercher une salle dans les environs
-            </a>
-          </li>
-        {% else %}
-        {% set nb=0 %}
-        {% for o in attribute(program.offers, type) if (nb < 5) %}
-        {% set nb = nb+1 %}
-        {% set o_channel = attribute(program.datas_offers.channels, o.channel_id) %}
-        {% set o_access = attribute(program.datas_offers.access, o.access_id) %}
-        {% set o_episode = o.episode_id is defined ? attribute(program.datas_offers.episodes,  o.episode_id) : '' %}
-          <li data-theme="c">
-              {% if o.deporte %}
-                <a data-play="{{ o.id }}" href="#" data-transition="slide">
-              {% elseif type == 'broadcasts' %}
-              <a href="{{ o.icsfile }}" target="_blank" rel="external">
-              {% else %}
-              <a href="{{ o.url }}" rel="external">
-              {% endif %}
-              <small>
-                {% if o.cost is defined %}
-                {{ o_access.name }} {% if o.cost %}{{ o.cost }} &euro;{% endif %}
-                {% else %}
-                {{ o.broadcastdate }}
-                {% endif %}
-              </small>
-              {{ o_channel.name }}
+		<div style="text-align:center;">
+			<div id="program-player" class="player" style="display:inline-block;width: 300px;height: 400px;position:relative;"{% if program.teaser %} data-play="{{ program.teaser.id }}" data-play-args="{{ {poster: program.picture}|json_encode }}"{% endif %}>
+				<div style="width: 100%;height: 100%;position:absolute;background:url({{ asset('/bundles/skreenhousefactorymobile/images/pic-play.png') }}) no-repeat center;"></div>
+				<img src="{{ program.picture }}" alt="{{ program.title }}" style="box-shadow: 0px 0px 25px #000;" />
+			</div>
+		</div>
+		<a data-theme="c" data-id="{{ program.id }}" data-role="button" href="#" class="fav">
+			<i class="icon-add-plus"></i> Ajouter à vos playlists
+		</a>
+		<ul data-role="listview" data-divider-theme="a" data-inset="true">
+			{% for type,name in offers if attribute(program.offers, type)|length > 0 %}
+				<li data-role="list-divider" role="heading">
+					{{ name }}
+				</li>
+				{% if type == 'theaters' %}
+					<li data-theme="c">
+						<a href="{{ path('mobile_cinemaprogram', {id: program.id}) }}" data-transition="slide">
+							<small>Dans {{ program.offers.theaters|split(',')|length }} cinémas</small>
+							Chercher une salle dans les environs
+						</a>
+					</li>
+				{% else %}
+				{% set nb=0 %}
+				{% for o in attribute(program.offers, type) if (nb < 5) %}
+				{% set nb = nb+1 %}
+				{% set o_channel = attribute(program.datas_offers.channels, o.channel_id) %}
+				{% set o_access = attribute(program.datas_offers.access, o.access_id) %}
+				{% set o_episode = o.episode_id is defined ? attribute(program.datas_offers.episodes,	o.episode_id) : '' %}
+					<li data-theme="c">
+							{% if o.deporte is defined and o.deporte %}
+								<a data-play="{{ o.id }}" href="#" data-transition="slide">
+							{% elseif type == 'broadcasts' %}
+							<a href="{{ o.icsfile }}" target="_blank" rel="external">
+							{% else %}
+							<a href="{{ o.url }}" rel="external">
+							{% endif %}
+							<small>
+								{% if o.cost is defined %}
+								{{ o_access.name }} {% if o.cost %}{{ o.cost }} &euro;{% endif %}
+								{% else %}
+								{{ o.broadcastdate }}
+								{% endif %}
+							</small>
+							{{ o_channel.name }}
 							{% if o_episode %}
-              <h5>{{ o_episode.title }}</h5>
+							<h5>{{ o_episode.title }}</h5>
 							{% endif%}
-              </a>
-          </li>
-        {% endfor %}
-        {% endif %}
-      {% endfor %}
-    </ul>
-		
+							</a>
+					</li>
+				{% endfor %}
+				{% endif %}
+			{% endfor %}
+		</ul>
 
-    <ul data-role="listview" data-divider-theme="a" data-inset="true">
+		<ul data-role="listview" data-divider-theme="a" data-inset="true">
 			<li data-role="list-divider" role="heading">
 				{{ program.title }}
 			</li>
@@ -76,35 +67,33 @@
 			</li>
 		</ul>
 
-    <ul data-role="listview" data-divider-theme="a" data-inset="true">
+		<ul data-role="listview" data-divider-theme="a" data-inset="true">
 			<li data-role="list-divider" role="heading">
 				Casting
 			</li>
-       {% if program.director %}
-       <li data-role="list-divider" role="heading">{{ 'directed.by'|trans }} : </li> 
-       {% for pers in program.director %}
+			 {% if program.director %}
+			 <li data-role="list-divider" role="heading">{{ 'directed.by'|trans }} : </li> 
+			 {% for pers in program.director %}
 			 <li data-theme="c"><a href="{{ path('mobile_search', {q: pers.name|url_encode }) }}">{{ pers.name }}</a></li>
-       {% endfor %}
-       {% endif %}
-       {% if program.casting %}
-       <li data-role="list-divider" role="heading">{{ 'actors'|trans }} : </li>
-       {% for pers in program.casting %}
+			 {% endfor %}
+			 {% endif %}
+			 {% if program.casting %}
+			 <li data-role="list-divider" role="heading">{{ 'actors'|trans }} : </li>
+			 {% for pers in program.casting %}
 			 <li data-theme="c"><a href="{{ path('mobile_search', {q: pers.name|url_encode }) }}">{{ pers.name }}</a></li>
-       {% endfor %}
-		  	</li>
-       {% endif %}
-       {% if program.editor %}
-       <li data-role="list-divider" role="heading">{{ 'editors'|trans }} : </li>
-       {% for pers in program.editor %}
+			 {% endfor %}
+				</li>
+			 {% endif %}
+			 {% if program.editor %}
+			 <li data-role="list-divider" role="heading">{{ 'editors'|trans }} : </li>
+			 {% for pers in program.editor %}
 			 <li data-theme="c"><a href="{{ path('mobile_search', {q: pers.name|url_encode }) }}">{{ pers.name }}</a></li>
-       {% endfor %}
-		  	</li>
-       {% endif %}
-
+			 {% endfor %}
+				</li>
+			 {% endif %}
 		</ul>
-		
 <script>
-  Player.init($('.player'));
-  var destination = document.location;
+	Player.init($('#program-player'));
+	var destination = document.location;
 </script>
 {% endblock %}

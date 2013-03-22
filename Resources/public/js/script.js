@@ -1,12 +1,13 @@
 // -- jQueryMobile
-$(document).bind("mobileinit", function(){
-	$.mobile.loader.prototype.options.text = "Chargement ...";
+$(document).bind('mobileinit', function(){
+	$.mobile.loader.prototype.options.text = 'Chargement ...';
 	$.extend(	$.mobile , {
 		pageLoadErrorMessage: 'Erreur !'
 	});
 });
 var skLoaded = false;
-$(document).bind( "pagechange", function( e, data ) {
+$(document).bind('pagechange', function( e, data ) {
+	console.log('script', 'bind pagechange', document.location.href);
 	//history
 	if (skLoaded == false) {
 		skLoaded = true;
@@ -16,16 +17,19 @@ $(document).bind( "pagechange", function( e, data ) {
 	} else {
 		//history
 		setTimeout(function(){
+			//console.log('script', 'bind pagechange', 'history setTimeout', history.state, document.location.href);
 			API.cookie('myskreen_m_lastpagechange', document.location.href);
 			if (history.state &&
-					history.state.initialHref == document.location.href) {
-				console.log("pageshow", history.state.initialHref, document.location.href);
+					(history.state.initialHref == document.location.href ||
+					 history.state.initialHref == document.location.href + '/')) {
+				console.log('pageshow', history.state.initialHref, document.location.href);
 				$('[role="navigation"] li').css('width','33.333%');
-				$('#historyback').hide();
 				$('[role="navigation"] li#tohome').hide();
+				$('body a#historyback').hide();
+				//console.log('pageshow', 'hide #historyback', $('#historyback'));
 			} else {
-				$('#historyback').show();
 				$('[role="navigation"] li').css('width','25%');
+				$('body a#historyback').show();
 			}
 		}, 500);
 	}
@@ -46,6 +50,11 @@ API.init(function(){
 	});
 });
 
+//modal
+$('.modal-close').live('click', function(){
+	$('.modal').modal('hide');
+})
+
 // -- PAGEs
 $('#historyback').live('click', function(){
 	if (document.location.href.indexOf('latlng=') != -1) {
@@ -62,13 +71,12 @@ $('.fav').live('click', function(){
 $('.signin').live('click', function(){
 	console.log('script', '.signin trigger', Skhf.session.datas);
 	if (!Skhf.session.datas.email) {
-		UI.signin(API.config.v3_root + '/m/notifs');
+		UI.auth(API.config.v3_root + '/m/notifs');
 	} else {
 		$.mobile.changePage(API.config.v3_root + '/m/notifs');
 	}
 	return false;
 });
-
 $('.signout').live('click', function(){
 	Skhf.session.signout(function(){
 		console.log('script', '.signout trigger', 'callback');

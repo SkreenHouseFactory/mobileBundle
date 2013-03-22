@@ -25,34 +25,33 @@
 {% endif %}
 
 <ul id="cinemas" data-role="listview" data-divider-theme="a" data-inset="true">
-  {% if cinemas %}
-    {% if cinemas|length == 0 %}
-      <li data-theme="c">
-        <a href="#">
-          Aucun cinéma trouvé
-        </a>
-      </li>
-    {% else %}
-      {% for cinema in cinemas %}
-        {% if cinema.adress is defined %}
-          <li data-role="list-divider" role="heading">
-            <small>{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
-            {{ cinema.name }}
-          </li>
-          {% if cinema.programs %}
-            {% for id in cinema.programs|split(',') if attribute(programs, id) is defined %}
-              {% set program = attribute(programs, id) %}
-              {% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program, cinema_id: cinema.id} %}
-            {% endfor %}
-          {% else %}
-            <li><h5>Programmation non connue</h5></li>
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  {% endif %}
+	{% if cinemas %}
+		{% if cinemas|length == 0 %}
+			<li data-theme="c">
+				<a href="#">
+					Aucun cinéma trouvé
+				</a>
+			</li>
+		{% else %}
+			{% for cinema in cinemas %}
+				{% if cinema.adress is defined %}
+					<li data-role="list-divider" role="heading">
+						<small>{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
+						{{ cinema.name }}
+					</li>
+					{% if cinema.programs %}
+						{% for id in cinema.programs|split(',') if attribute(programs, id) is defined %}
+							{% set program = attribute(programs, id) %}
+							{% include 'SkreenHouseFactoryMobileBundle:Main:_program.html.twig' with {program: program, cinema_id: cinema.id} %}
+						{% endfor %}
+					{% else %}
+						<li><h5>Programmation non connue</h5></li>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	{% endif %}
 </ul>
-
 
 {% if app.request.get('q') is null %}
 <script>
@@ -60,13 +59,13 @@ $(document).ready(function(){
 	if (typeof viewCinemaInitialized == 'undefined') {
 		console.log('script cinema', API.cookie('latlng'));
 		var viewCinemaInitialized = true;
-	  if (!API.cookie('latlng')) {
-	    setTimeout(function(){
-	      UI.loadCinemas('{{ path('mobile_cinema') }}');
-	    }, 1000);
-	  } else if (document.location.href.indexOf('?latlng=') == -1) {
-	    $.mobile.changePage( '{{ path('mobile_cinema') }}?latlng=' + API.cookie('latlng') );
-	  }
+		if (!API.cookie('latlng')) {
+			setTimeout(function(){
+				UI.loadCinemas('{{ path('mobile_cinema') }}');
+			}, 1000);
+		} else if (document.location.href.indexOf('?latlng=') == -1) {
+			$.mobile.changePage( '{{ path('mobile_cinema') }}?latlng=' + API.cookie('latlng') );
+		}
 	}
 })
 </script>

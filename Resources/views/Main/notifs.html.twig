@@ -4,66 +4,70 @@
 
 {% block content %}
 
-
+<div id="view-notifs">
 <a data-theme="c" data-role="button" href="#" class="signout">
-  <i class="icon-add-plus"></i> Déconnexion
+	<i class="icon-add-plus"></i> Déconnexion
 </a>
 
 <ul id="selector" data-role="listview" data-divider-theme="a" data-inset="true">
-  <li data-role="list-divider" role="heading">
-    Vos playlist (<span class="count"></span>)
-  </li>
+	<li data-role="list-divider" role="heading">
+		Vos playlist (<span class="count"></span>)
+	</li>
 </ul>
 
 <ul id="notifs" data-role="listview" data-divider-theme="a" data-inset="true">
-  <li data-role="list-divider" role="heading">
-    Notifications (<span class="count"></span>)
-  </li>
+	<li data-role="list-divider" role="heading">
+		Notifications (<span class="count"></span>)
+	</li>
 </ul>
+</div>
 
 <script>
-  $('#navbar a').removeClass('ui-btn-active');
-  $('#navbar #tomatv a').addClass('ui-btn-active');
+	$('#navbar a').removeClass('ui-btn-active');
+	$('#navbar #tomatv a').addClass('ui-btn-active');
 
-  console.log('script notifs', Skhf.session.datas);
-  //not connected
-  if (!Skhf.session.datas.email) {
-    UI.signin(API.config.v3_root + '/m/notifs');
+	console.log('script view notifs', Skhf.session.datas);
+	//not connected
+	if (!Skhf.session.datas.email) {
+		UI.auth(API.config.v3_root + '/m/notifs');
 
-  //load notifs + selector dynamically
-  } else {
+	//load notifs + selector dynamically
+	} else {
 
 		if (typeof viewNotifInitialized == 'undefined') {
-			$(document).bind("pagechange", function(){
-				viewNotifInitialized = true;
-			
-		    //load notifs
-		    var container = $('#notifs');
-		    $('.count', container).html(Skhf.session.datas.notifications.length);
-		    for (k in Skhf.session.datas.notifications){
-		      container.append('<li data-theme="c" class="'+Skhf.session.datas.notifications[k].type+'"><a target="_blank" href="'+Skhf.session.datas.notifications[k].link+'" rel="external"><img src="'+Skhf.session.datas.notifications[k].channel_ico+'" />'+Skhf.session.datas.notifications[k].title+'<h5>'+Skhf.session.datas.notifications[k].title_episode+'<br/><span class="notif">'+Skhf.session.datas.notifications[k].subtitle+'</span></h5></a></li>');
-		    }
-				container.listview('refresh');
+			console.log('script view notifs', 'init bind pagechange');
+			$(document).bind('pagechange', function(){
+				if ($('#view-notifs').length > 0) {
+					console.log('script view notifs', 'enter pagechange', Skhf.session.datas);
+					viewNotifInitialized = true;
+					//load notifs
+					var container = $('#notifs');
+					$('.count', container).html(Skhf.session.datas.notifications.length);
+					for (k in Skhf.session.datas.notifications){
+						container.append('<li data-theme="c" class="'+Skhf.session.datas.notifications[k].type+'"><a target="_blank" href="'+Skhf.session.datas.notifications[k].link+'" rel="external"><img src="'+Skhf.session.datas.notifications[k].channel_ico+'" />'+Skhf.session.datas.notifications[k].title+'<h5>'+Skhf.session.datas.notifications[k].title_episode+'<br/><span class="notif">'+Skhf.session.datas.notifications[k].subtitle+'</span></h5></a></li>');
+					}
+					container.listview('refresh');
 
-		    //load selector
-		    var names = {tv: 'A la télé', cine: 'Au cinéma', replay: 'En Replay', vod: 'En vidéo à la demande' }
-		    var container = $('#selector');
-		    $('.count', container).html(Skhf.session.datas.queue.length);
-		    API.query('GET', 
-		              'www/slider/selector/' + Skhf.session.uid + '.json',
-		              {
-		               with_count_favoris: 1
-		              },
-		              function(json){
-		                for (k in json) {
-		                  container.append(('<li data-theme="c"><a href="{{ path('mobile_playlist', {'access': '_access_', 'session_uid': '_session_uid_'}) }}"><small>'+json[k].nb_programs+' programmes</small>'+names[json[k].name]+'</a></li>').replace('_access_', json[k].name).replace('_session_uid_', Skhf.session.uid));
-		                }
-		                container.listview('refresh');
-		    });
+					//load selector
+					var names = {tv: 'A la télé', cine: 'Au cinéma', replay: 'En Replay', vod: 'En vidéo à la demande' }
+					var container = $('#selector');
+					$('.count', container).html(Skhf.session.datas.queue.length);
+					API.query('GET', 
+										'www/slider/selector/' + Skhf.session.uid + '.json',
+										{
+										 with_count_favoris: 1
+										},
+										function(json){
+											for (k in json) {
+												container.append(('<li data-theme="c"><a href="{{ path('mobile_playlist', {'access': '_access_', 'session_uid': '_session_uid_'}) }}"><small>'+json[k].nb_programs+' programmes</small>'+names[json[k].name]+'</a></li>').replace('_access_', json[k].name).replace('_session_uid_', Skhf.session.uid));
+											}
+											container.listview('refresh');
+					});
+				}
 			});
 		}
 
-  }
+	}
 	
 </script>
 {% endblock %}

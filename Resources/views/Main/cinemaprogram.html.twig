@@ -23,43 +23,45 @@
 {% endif %}
 {% endif %}
 <ul id="cinemas" data-role="listview" data-divider-theme="a" data-inset="true">
-  {% if cinemas %}
-    {% if cinemas|length == 0 %}
-      <li data-theme="c">
-        <a href="#">
-          Aucun cinéma trouvé
-        </a>
-      </li>
-    {% else %}
-      {% for cinema in cinemas %}
-        {% if cinema.adress is defined %}
-          <li data-role="list-divider" role="heading">
-            <small>{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
-            {{ cinema.name }}
-          </li>
-          {% for day in days if attribute(cinema.schedules[0].horaires, day) is defined %}
-            <li data-theme="c">
-              <small>{{ attribute(cinema.schedules[0].horaires, day)|replace({',': ', '}) }}</small>
-              {{ day }}
-            </li>
-          {% endfor %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  {% endif %}
+	{% if cinemas %}
+		{% if cinemas|length == 0 %}
+			<li data-theme="c">
+				<a href="#">
+					Aucun cinéma trouvé
+				</a>
+			</li>
+		{% else %}
+			{% for cinema in cinemas %}
+				{% if cinema.adress is defined %}
+					<li data-role="list-divider" role="heading">
+						<small>{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
+						{{ cinema.name }}
+					</li>
+					{% for day in days if attribute(cinema.schedules[0].horaires, day) is defined %}
+						<li data-theme="c">
+							<small>{{ attribute(cinema.schedules[0].horaires, day)|replace({',': ', '}) }}</small>
+							{{ day }}
+						</li>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	{% endif %}
 </ul>
-
 
 {% if app.request.get('q') is null and app.request.get('cinema_id') is null %}
 <script>
-$(document).ready(function(){  
-  if (!API.cookie('latlng')) {
-    setTimeout(function(){
-      UI.loadCinemas('{{ path('mobile_cinemaprogram', {id: program.id}) }}');
-    }, 1000);
-  } else if (document.location.href.indexOf('?latlng=') == -1) {
-    $.mobile.changePage( '{{ path('mobile_cinemaprogram', {id: program.id}) }}?latlng='+API.cookie('latlng') );
-  }
+$(document).ready(function(){
+	if (typeof viewCinemaProgramInitialized == 'undefined') {
+		var viewCinemaProgramInitialized = true;
+		if (!API.cookie('latlng')) {
+			setTimeout(function(){
+				UI.loadCinemas('{{ path('mobile_cinemaprogram', {id: program.id}) }}');
+			}, 1000);
+		} else if (document.location.href.indexOf('?latlng=') == -1) {
+			$.mobile.changePage( '{{ path('mobile_cinemaprogram', {id: program.id}) }}?latlng='+API.cookie('latlng') );
+		}
+	}
 });
 </script>
 {% endif %}

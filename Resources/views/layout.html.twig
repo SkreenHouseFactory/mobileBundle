@@ -1,73 +1,74 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.8, maximum-scale=0.8, user-scalable = no" />
-  	<meta name="description" content="{% block description %}{% endblock %}">
-  	<meta name="author" content="SkreenHouseFactory">
-  	<meta name="language" content="fr-FR" />
-  	<meta name="robots" content="noindex,nofollow">
-  	<title>{{ 'service.name'|trans }}</title>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.8, maximum-scale=0.8, user-scalable = no" />
+		<meta name="description" content="{% block description %}{% endblock %}">
+		<meta name="author" content="SkreenHouseFactory">
+		<meta name="language" content="fr-FR" />
+		<meta name="robots" content="noindex,nofollow">
+		<title>{{ 'service.name'|trans }}</title>
 
-    <meta content="yes" name="apple-mobile-web-app-capable" />
-    <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="{{ asset('/bundles/skreenhousefactorymobile/images/appico.png') }}" />
-    <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="{{ asset('/bundles/skreenhousefactorymobile/images/appico.png') }}" />
-    <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="{{ asset('/bundles/skreenhousefactorymobile/images/appico.png') }}" />
-    <link rel="apple-touch-startup-image" href="{{ asset('/bundles/skreenhousefactorymobile/images/splash.png') }}" />
-	  <link rel="icon" href="/favicon-mobile.ico" type="image/x-icon">
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="{{ asset('/bundles/skreenhousefactorymobile/images/appico.png') }}" />
+		<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="{{ asset('/bundles/skreenhousefactorymobile/images/appico.png') }}" />
+		<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="{{ asset('/bundles/skreenhousefactorymobile/images/appico.png') }}" />
+		<link rel="apple-touch-startup-image" href="{{ asset('/bundles/skreenhousefactorymobile/images/splash.png') }}" />
+		<link rel="icon" href="/favicon-mobile.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
-    {% stylesheets
-        '@SkreenHouseFactoryMobileBundle/Resources/public/less/style.less'
-          filter='less,?yui_css'
-          output='css/v3-mobile.css'
-          %}
-        <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
-    {% endstylesheets %}
+		<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+		{% stylesheets
+				'@SkreenHouseFactoryMobileBundle/Resources/public/less/style.less'
+					filter='less,?yui_css'
+					output='css/v3-mobile.css'
+					%}
+				<link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+		{% endstylesheets %}
+
+	{% javascripts
+			'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
+			'https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/jquery.cookies.min.js'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/bootstrap/js/bootstrap-modal.js'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/easyXDM.min.js'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/inheritance.js'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/flowplayer-3.2.11.min.js'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/flowplayer.ipad-3.2.11.js'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/js/core/*'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/js/scripts/core/player.js'
+			'@SkreenHouseFactoryV3Bundle/Resources/public/js/scripts/core/fb.js'
+			'@SkreenHouseFactoryMobileBundle/Resources/public/js/*'
+			filter='?yui_js' 
+			output='js/compiled/v3-mobile.js'	%}
+			<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+	</head>
+	<body>
+
+	<div class="modal"><a class="modal-close" href="#">&times</a><div class="modal-body"></div></div>
+	<div data-role="page" id="{% block pageid %}{% endblock %}">
+		<div data-theme="a" data-role="header">
+			<h3>{% block title %}{% endblock %}</h3>
+		</div>
+		<div data-role="content">
+		{% block content %}
+		{% endblock %}
+		{% include 'SkreenHouseFactoryMobileBundle:Main:_navbar.html.twig' %}
+		</div>
+	</div>
 
 
-  {% javascripts
-      'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
-      'https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js'
-      '@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/jquery.cookies.min.js'
-    	'@SkreenHouseFactoryV3Bundle/Resources/public/bootstrap/js/bootstrap-modal.js'
-      '@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/easyXDM.min.js'
-      '@SkreenHouseFactoryV3Bundle/Resources/public/js/vendors/inheritance.js'
-      '@SkreenHouseFactoryV3Bundle/Resources/public/js/core/*'
-      '@SkreenHouseFactoryV3Bundle/Resources/public/js/scripts/core/player.js'
-      '@SkreenHouseFactoryV3Bundle/Resources/public/js/scripts/core/fb.js'
-      '@SkreenHouseFactoryMobileBundle/Resources/public/js/*'
-      filter='?yui_js' 
-      output='js/compiled/v3-mobile.js'  %}
-      <script src="{{ asset_url }}"></script>
-  {% endjavascripts %}
 
-  </head>
-  <body>
-
-  <div data-role="page" id="{% block pageid %}{% endblock %}">
-    <div data-theme="a" data-role="header">
-      <h3>{% block title %}{% endblock %}</h3>
-    </div>
-    <div data-role="content">
-		<div class="modal"><div class="modal-body"></div></div>
-    {% block content %}
-    {% endblock %}
-    {% include 'SkreenHouseFactoryMobileBundle:Main:_navbar.html.twig' %}
-    </div>
-  </div>
-
-
-
-  <script>
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-6151896-8']);
-    _gaq.push(['_trackPageview']);
-    (function() { 
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.id = 'scriptAnalytics';
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; 
-      var s = document.body.appendChild(ga); 
-      })(); 
-  </script>
-  </body>
+	<script>
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-6151896-8']);
+		_gaq.push(['_trackPageview']);
+		(function() { 
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.id = 'scriptAnalytics';
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; 
+			var s = document.body.appendChild(ga); 
+			})(); 
+	</script>
+	</body>
 </html>
