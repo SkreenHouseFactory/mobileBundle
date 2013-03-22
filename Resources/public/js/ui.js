@@ -30,6 +30,8 @@ UI = {
 
 		API.quickLaunchModal('signup', function(){
 			console.log('UI.auth', 'callback', Skhf.session.datas);
+			Skhf.session.sync();
+
 			// view
 			$('.modal').trigger('create');
 			$('.modal ul.alert').addClass('ui-body ui-body-e');
