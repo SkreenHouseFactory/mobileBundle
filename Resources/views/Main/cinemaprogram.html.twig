@@ -5,7 +5,7 @@
 
 {% block content %}
 
-
+<div id="view-cinemaprogram">
 <form action="{{ path('mobile_cinemaprogram', {id: program.id}) }}" method="get">
 <input name="q" id="searchinput1" placeholder="75005, Marseille, UGC bastille, etc" value="{{ app.request.get('q') }}" type="search" />
 <input type="submit" data-theme="a" value="Lancer la recherche" />
@@ -48,19 +48,27 @@
 		{% endif %}
 	{% endif %}
 </ul>
+<br/>
+<a data-role="button" data-theme="a" href="{{ path('mobile_program', {id: program.id}) }}">{{ program.title }} : voir la bande annonce</a>
+</div>
 
 {% if app.request.get('q') is null and app.request.get('cinema_id') is null %}
 <script>
 $(document).ready(function(){
 	if (typeof viewCinemaProgramInitialized == 'undefined') {
-		var viewCinemaProgramInitialized = true;
-		if (!API.cookie('latlng')) {
-			setTimeout(function(){
-				UI.loadCinemas('{{ path('mobile_cinemaprogram', {id: program.id}) }}');
-			}, 1000);
-		} else if (document.location.href.indexOf('?latlng=') == -1) {
-			$.mobile.changePage( '{{ path('mobile_cinemaprogram', {id: program.id}) }}?latlng='+API.cookie('latlng') );
-		}
+
+		$(document).bind('pagechange', function(){
+			if ($('#view-cinemaprogram').length > 0) {
+				viewCinemaProgramInitialized = true;
+				if (!API.cookie('latlng')) {
+					setTimeout(function(){
+						UI.loadCinemas('{{ path('mobile_cinemaprogram', {id: program.id}) }}');
+					}, 1000);
+				} else if (document.location.href.indexOf('?latlng=') == -1) {
+					$.mobile.changePage( '{{ path('mobile_cinemaprogram', {id: program.id}) }}?latlng='+API.cookie('latlng') );
+				}
+			}
+		});
 	}
 });
 </script>

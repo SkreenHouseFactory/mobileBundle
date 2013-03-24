@@ -18,7 +18,8 @@ $(document).bind('pagechange', function( e, data ) {
 		//history
 		setTimeout(function(){
 			//console.log('script', 'bind pagechange', 'history setTimeout', history.state, document.location.href);
-			API.cookie('myskreen_m_lastpagechange', document.location.href);
+			console.log('script', 'bind pagechange', 'location ->', document.location);
+			API.insertIndexedDb('skhf', 'm_lastpage', {id: 0, url: document.location.href});
 			if (history.state &&
 					(history.state.initialHref == document.location.href ||
 					 history.state.initialHref == document.location.href + '/')) {

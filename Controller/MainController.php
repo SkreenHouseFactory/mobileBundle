@@ -51,7 +51,8 @@ class MainController extends Controller
                    'tnt_only' => true
                 ));*/
       $result = $api->fetch('schedule/epg', array(
-                   'timestamp' => strtotime(date('Y-m-d 20:00:00'))
+                   'timestamp' => strtotime(date('Y-m-d 20:00:00')),
+                   'duration' => 240
                 ));
       //echo $api->url;
       $response = $this->render('SkreenHouseFactoryMobileBundle:Main:tv.html.twig', array(

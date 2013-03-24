@@ -4,10 +4,10 @@
 
 {% block content %}
 
-		<div style="text-align:center;">
-			<div id="program-player" class="player" style="display:inline-block;width: 300px;height: 400px;position:relative;"{% if program.teaser %} data-play="{{ program.teaser.id }}" data-play-args="{{ {poster: program.picture}|json_encode }}"{% endif %}>
-				<div style="width: 100%;height: 100%;position:absolute;background:url({{ asset('/bundles/skreenhousefactorymobile/images/pic-play.png') }}) no-repeat center;"></div>
-				<img src="{{ program.picture }}" alt="{{ program.title }}" style="box-shadow: 0px 0px 25px #000;" />
+		<div class="center">
+			<div id="program-player" class="player"{% if program.teaser %} data-play="{{ program.teaser.id }}" data-play-args="{{ {poster: program.picture}|json_encode }}"{% endif %}>
+				<div class="pic-play" style="background:url({{ asset('/bundles/skreenhousefactorymobile/images/pic-play.png') }}) no-repeat center;"></div>
+				<img src="{{ program.picture }}" alt="{{ program.title }}" />
 			</div>
 		</div>
 		<a data-theme="c" data-id="{{ program.id }}" data-role="button" href="#" class="fav">
