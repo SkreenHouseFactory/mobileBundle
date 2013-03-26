@@ -31,7 +31,7 @@ class MainController extends Controller
     */
     public function homeAction(Request $request)
     {
-      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:home.html.twig', array(
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:' . $request->get('template') . '.html.twig', array(
              ));
 			$this->varnish($response);
 			return $response;

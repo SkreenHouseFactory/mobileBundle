@@ -12,16 +12,18 @@
 </form>
 <br/>
 <a href="{{ path('mobile_selection') }}" data-iconpos="right" data-role="button" data-theme="a" data-icon="arrow-r">A voir en ce moment : TV, Replay, Vod et Cinéma</a>
-
+<br/>
+<a id="route-www" data-iconpos="right" data-role="button" data-theme="a" data-icon="arrow-r">Accéder à mySkreen.com</a>
 
 <script>
 $(document).ready(function(){
+	$('.ui-navbar').show();
 	if (typeof viewInitLastPage == 'undefined') {
 		viewInitLastPage = true;
 		API.selectIndexedDb('skhf', 'm_lastpage', 0, function(result){
-	    console.log('skhf -> m_lastpage', result);
 			if (typeof result.url != 'undefined') {
-		    $.mobile.changePage(result.url);
+	    	console.log('skhf -> m_lastpage', result);
+		    //$.mobile.changePage(result.url);
 			}
 		});
 	}
