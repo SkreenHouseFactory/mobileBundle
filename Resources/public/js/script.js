@@ -9,7 +9,8 @@ var skLoaded = false;
 $(document).bind('pagechange', function( e, data ) {
 	console.log('script', 'bind pagechange', document.location.href);
 	//history
-	if (skLoaded == false) {
+	if (skLoaded == false && 
+			document.location.href.indexOf('/route') == -1) { //on n'initialize pas sur route
 		skLoaded = true;
 		$('[role="navigation"] li').css('width','33.333%');
 		$('#historyback').hide();
@@ -57,6 +58,27 @@ $('.modal-close').live('click', function(){
 })
 
 // -- PAGEs
+$('#route-www').live('click', function(e){
+	e.preventDefault();
+	API.cookie('m_myskreen', 'deny');
+	document.location = document.referrer ? document.referrer : 'http://www.myskreen.com?fromMobile';
+	return false;
+})
+$('#route-m').live('click', function(e){
+	e.preventDefault();
+	API.cookie('m_myskreen', 'allow');
+	var match = document.referrer.match(/\/(film|serie|documentaire|emission|court-metrage|concert|spectacle|theatre)\/[\w|-]+\/[\d]+/gi);
+	if (match) {
+		console.log('match', match);
+		var ids = match[match.length - 1].match(/\/[\d]+/gi);
+		console.log('ids', ids);
+		var id = ids[ids.length - 1];
+		document.location = document.location.href.indexOf('.myskreen.typhon.net') ? '/app_dev.php/m/program' + id : '/m/program' + id;
+	} else {
+		document.location = document.location.href.indexOf('.myskreen.typhon.net') ? '/app_dev.php/m' : '/m';
+	}
+	return false;
+})
 $('#historyback').live('click', function(){
 	if (document.location.href.indexOf('latlng=') != -1) {
 		history.go(-2);

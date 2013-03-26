@@ -1,7 +1,10 @@
 #program
 mobile_home:
     pattern:  /
-    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:home }
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:home, template: home }
+mobile_route:
+    pattern:  /route
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:home, template: route }
 mobile_search:
     pattern:  /search/{q}/{onglet}
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:search, q: null, onglet: null  }
