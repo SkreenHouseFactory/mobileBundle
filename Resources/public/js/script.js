@@ -57,14 +57,16 @@ $('.modal-close').live('click', function(){
 })
 
 // -- PAGEs
-$('#route-www').click(function(e){
+$('#route-www').live('click', function(e){
+	alert('#route-www');
 	e.preventDefault();
 	API.cookie('mobile', 'deny');
-	//alert('mobile=deny:' + document.referrer);
+	alert('mobile=deny:' + (document.referrer ? document.referrer : 'http://www.myskreen.com'));
 	document.location(document.referrer ? document.referrer : 'http://www.myskreen.com');
 	return false;
 })
-$('#route-m').click(function(e){
+$('#route-m').live('click', function(e){
+	alert('#route-m');
 	e.preventDefault();
 	API.cookie('mobile', 'allow');
 	var match = document.referrer.match(/\/(film|serie|documentaire|emission|court-metrage|concert|spectacle|theatre)\/[\w|-]+\/[\d]+/gi);
