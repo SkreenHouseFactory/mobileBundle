@@ -63,7 +63,7 @@ $('#route-www').live('click', function(e){
 	e.preventDefault();
 	API.cookie('mobile', 'deny');
 	//alert('mobile=deny:' + (document.referrer ? document.referrer : 'http://www.myskreen.com'));
-	document.location(document.referrer ? document.referrer : 'http://www.myskreen.com');
+	document.location = document.referrer ? document.referrer : 'http://www.myskreen.com';
 	return false;
 })
 $('#route-m').live('click', function(e){
