@@ -19,7 +19,7 @@ $(document).bind('pagechange', function( e, data ) {
     setTimeout(function(){
       //console.log('script', 'bind pagechange', 'history setTimeout', history.state, document.location.href);
       console.log('script', 'bind pagechange', 'location ->', document.location);
-      API.insertIndexedDb('skhf', 'm_lastpage', {id: 0, url: document.location.href});
+      //API.insertIndexedDb('skhf', 'm_lastpage', {id: 0, url: document.location.href});
       if (history.state &&
           (history.state.initialHref == document.location.href ||
            history.state.initialHref == document.location.href + '/')) {
@@ -58,15 +58,15 @@ $('.modal-close').live('click', function(){
 
 // -- PAGEs
 $('#route-www').live('click', function(e){
-	alert('#route-www');
+	//alert('#route-www');
 	e.preventDefault();
 	API.cookie('mobile', 'deny');
-	alert('mobile=deny:' + (document.referrer ? document.referrer : 'http://www.myskreen.com'));
+	//alert('mobile=deny:' + (document.referrer ? document.referrer : 'http://www.myskreen.com'));
 	document.location(document.referrer ? document.referrer : 'http://www.myskreen.com');
 	return false;
 })
 $('#route-m').live('click', function(e){
-	alert('#route-m');
+	//alert('#route-m');
 	e.preventDefault();
 	API.cookie('mobile', 'allow');
 	var match = document.referrer.match(/\/(film|serie|documentaire|emission|court-metrage|concert|spectacle|theatre)\/[\w|-]+\/[\d]+/gi);

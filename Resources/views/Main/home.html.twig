@@ -17,16 +17,18 @@
 
 <script>
 $(document).ready(function(){
-	$('.ui-navbar').show();
-	if (typeof viewInitLastPage == 'undefined') {
-		viewInitLastPage = true;
-		API.selectIndexedDb('skhf', 'm_lastpage', 0, function(result){
-			if (typeof result.url != 'undefined') {
-	    	console.log('skhf -> m_lastpage', result);
-		    //$.mobile.changePage(result.url);
-			}
-		});
-	}
+  $('.ui-navbar').show();
+  if (typeof viewInitLastPage == 'undefined') {
+    viewInitLastPage = true;
+    /*
+    API.selectIndexedDb('skhf', 'm_lastpage', 0, function(result){
+      if (typeof result.url != 'undefined') {
+        console.log('skhf -> m_lastpage', result);
+        //$.mobile.changePage(result.url);
+      }
+    });
+    */
+  }
 });
 </script>
 {% endblock %}
