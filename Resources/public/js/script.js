@@ -9,8 +9,7 @@ var skLoaded = false;
 $(document).bind('pagechange', function( e, data ) {
 	console.log('script', 'bind pagechange', document.location.href);
 	//history
-	if (skLoaded == false && 
-			document.location.href.indexOf('/route') == -1) { //on n'initialize pas sur route
+	if (skLoaded == false) { //on n'initialize pas sur route
 		skLoaded = true;
 		$('[role="navigation"] li').css('width','33.333%');
 		$('#historyback').hide();

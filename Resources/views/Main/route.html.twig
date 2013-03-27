@@ -4,7 +4,7 @@
 
 {% block content %}
 <div style="text-align:center;">
-<img src="/bundles/skreenhousefactorytv/images/liang/icon_logo_1280.png" alt="image" style="margin: 8% 0 20% 0;">
+<img src="/bundles/skreenhousefactorytv/images/liang/icon_logo_1280.png" alt="image" style="width:250px;margin: 8% 0 20% 0;">
 </div>
 <a id="route-m" data-iconpos="right" data-role="button" data-theme="a" data-icon="arrow-r">Version mobile simplifiée</a>
 <br/>
@@ -15,7 +15,31 @@
 #}
 <script>
 $(document).ready(function(){
-	$('.ui-navbar').hide();
+	setTimeout(function(){
+		$('.ui-navbar, #historyback').hide();
+	}, 500);
+	$('#route-www').click(function(e){
+		e.preventDefault();
+		API.cookie('mobile', 'deny');
+		//alert('mobile=deny:' + document.referrer);
+		document.location(document.referrer ? document.referrer : 'http://www.myskreen.com');
+		return false;
+	})
+	$('#route-m').click(function(e){
+		e.preventDefault();
+		API.cookie('mobile', 'allow');
+		var match = document.referrer.match(/\/(film|serie|documentaire|emission|court-metrage|concert|spectacle|theatre)\/[\w|-]+\/[\d]+/gi);
+		if (match) {
+			console.log('match', match);
+			var ids = match[match.length - 1].match(/\/[\d]+/gi);
+			console.log('ids', ids);
+			var id = ids[ids.length - 1];
+			document.location = document.location.href.indexOf('.myskreen.typhon.net') ? '/app_dev.php/m/program' + id : '/m/program' + id;
+		} else {
+			document.location = document.location.href.indexOf('.myskreen.typhon.net') ? '/app_dev.php/m' : '/m';
+		}
+		return false;
+	})
 });
 </script>
 {% endblock %}
