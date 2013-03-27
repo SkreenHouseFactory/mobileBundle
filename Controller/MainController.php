@@ -19,12 +19,12 @@ use SkreenHouseFactory\v3Bundle\Api\ApiManager;
 
 class MainController extends Controller
 {
-		protected function varnish($response){
+    protected function varnish($response){
       $maxage = 3600;
       $response->setPublic();
       $response->setMaxAge($maxage);
       $response->setSharedMaxAge($maxage);
-		}
+    }
 
     /**
     *
@@ -33,8 +33,8 @@ class MainController extends Controller
     {
       $response = $this->render('SkreenHouseFactoryMobileBundle:Main:' . $request->get('template') . '.html.twig', array(
              ));
-			$this->varnish($response);
-			return $response;
+      $this->varnish($response);
+      return $response;
     }
 
     /**
@@ -58,8 +58,8 @@ class MainController extends Controller
       $response = $this->render('SkreenHouseFactoryMobileBundle:Main:tv.html.twig', array(
                 'channels' => (array)$result->channels
              ));
-			$this->varnish($response);
-			return $response;
+      $this->varnish($response);
+      return $response;
     }
 
     /**
@@ -86,8 +86,8 @@ class MainController extends Controller
                 'cinemas' => $result ? (array)$result[0]->theaters : null,
                 'programs' => $result ? $result[1]->programs : null,
              ));
-			$this->varnish($response);
-			return $response;
+      $this->varnish($response);
+      return $response;
     }
     
     /**
@@ -119,7 +119,7 @@ class MainController extends Controller
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
       $program = $api->fetch('program/'.$request->get('id'), array(
                     'img_width' => 300,
-                    'img_height' => 400
+                    'img_height' => 350
                   ));
 
       $response = $this->render('SkreenHouseFactoryMobileBundle:Main:cinemaprogram.html.twig', array(
@@ -127,8 +127,8 @@ class MainController extends Controller
                 'cinemas' => $cinemas,
                 'days' => array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche')
              ));
-			$this->varnish($response);
-			return $response;
+      $this->varnish($response);
+      return $response;
     }
 
     /**
@@ -157,7 +157,7 @@ class MainController extends Controller
                     'with_programs' => true
                   ));
         //echo $api->url;
-      	$response = $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
+        $response = $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
                  'pack' => $result
                ));
       } else {
@@ -168,13 +168,13 @@ class MainController extends Controller
                   ));
 
         //echo $api->url;
-      	$response = $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
+        $response = $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(
                  'home' => $result
                ));
       }
 
-			$this->varnish($response);
-			return $response;
+      $this->varnish($response);
+      return $response;
     }
 
     /**
@@ -227,8 +227,8 @@ class MainController extends Controller
                'format' => $request->get('onglet')
              ));
 
-			$this->varnish($response);
-			return $response;
+      $this->varnish($response);
+      return $response;
     }
     
     /**
@@ -259,7 +259,7 @@ class MainController extends Controller
                                  'theaters' => 'Au cinéma')
              ));
 
-			$this->varnish($response);
-			return $response;
+      $this->varnish($response);
+      return $response;
     }
 }

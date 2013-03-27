@@ -40,6 +40,7 @@ $(document).bind('pagechange', function( e, data ) {
   }
 });
 
+UiView.init();
 
 // -- API
 API.init(function(){
