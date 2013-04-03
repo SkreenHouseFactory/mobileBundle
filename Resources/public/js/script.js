@@ -5,12 +5,12 @@ $(document).bind('mobileinit', function(){
     pageLoadErrorMessage: 'Erreur !'
   });
 });
-var skLoaded = false;
+
 $(document).bind('pagechange', function( e, data ) {
   console.log('script', 'bind pagechange', document.location.href);
   //history
-  if (skLoaded == false) { //on n'initialize pas sur route
-    skLoaded = true;
+  if (!document.location.href.match(/\/m\/[.*]+/gi)) { //on n'initialize pas sur route
+
     $('[role="navigation"] li').css('width','33.333%');
     $('#historyback').hide();
     $('[role="navigation"] li#tohome').hide();
@@ -53,41 +53,41 @@ API.init(function(){
 });
 
 //modal
-$('.modal-close').live('click', function(){
+$(document).on('click', '.modal-close', function(){
   $('.modal').modal('hide');
 })
 
 // -- PAGEs
-$('#route-www').live('click', function(e){
-	//alert('#route-www');
-	e.preventDefault();
-	//API.cookie('mobile', 'deny');
-	//alert('mobile=deny:' + (document.referrer ? document.referrer : 'http://www.myskreen.com'));
+$(document).on('click', '#route-www', function(e){
+  //alert('#route-www');
+  e.preventDefault();
+  //API.cookie('mobile', 'deny');
+  //alert('mobile=deny:' + (document.referrer ? document.referrer : 'http://www.myskreen.com'));
   var denyurl = document.referrer ? document.referrer : 'http://www.myskreen.com';
   if ($(this).hasClass('deny')) {
     denyurl += '?setDenyMobile';
   }
-	document.location = denyurl;
-	return false;
+  document.location = denyurl;
+  return false;
 })
-$('#route-m').live('click', function(e){
-	//alert('#route-m');
-	e.preventDefault();
-	//API.cookie('mobile', 'allow');
-	var match = document.referrer.match(/\/(film|serie|documentaire|emission|court-metrage|concert|spectacle|theatre)\/[\w|-]+\/[\d]+/gi);
-	if (match) {
-		console.log('match', match);
-		var ids = match[match.length - 1].match(/\/[\d]+/gi);
-		console.log('ids', ids);
-		var id = ids[ids.length - 1];
+$(document).on('click', '#route-m', function(e){
+  //alert('#route-m');
+  e.preventDefault();
+  //API.cookie('mobile', 'allow');
+  var match = document.referrer.match(/\/(film|serie|documentaire|emission|court-metrage|concert|spectacle|theatre)\/[\w|-]+\/[\d]+/gi);
+  if (match) {
+    console.log('match', match);
+    var ids = match[match.length - 1].match(/\/[\d]+/gi);
+    console.log('ids', ids);
+    var id = ids[ids.length - 1];
     $.mobile.changePage(API.config.v3_root + '/m/program' + id);
-	} else {
+  } else {
     $.mobile.changePage(API.config.v3_root + '/m');
-	}
-	return false;
+  }
+  return false;
 })
 
-$('#historyback').live('click', function(){
+$(document).on('click', '#historyback', function(){
   if (document.location.href.indexOf('latlng=') != -1) {
     history.go(-2);
   } else {
@@ -95,11 +95,11 @@ $('#historyback').live('click', function(){
   } 
   return false;
 })
-$('.fav').live('click', function(){
+$(document).on('click', '.fav', function(){
   UI.togglePlaylist($(this));
   return false;
 })
-$('.signin').live('click', function(){
+$(document).on('click', '.signin', function(){
   console.log('script', '.signin trigger', Skhf.session.datas);
   if (!Skhf.session.datas.email) {
     UI.auth(API.config.v3_root + '/m/notifs');
@@ -108,7 +108,7 @@ $('.signin').live('click', function(){
   }
   return false;
 });
-$('.signout').live('click', function(){
+$(document).on('click', '.signout', function(){
   Skhf.session.signout(function(){
     console.log('script', '.signout trigger', 'callback');
     UI.loadUser();

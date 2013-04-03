@@ -32,6 +32,10 @@ mobile_tv:
 mobile_cinema:
     pattern:  /cinema/
     defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:cinema }
-mobile_dialog:
-    pattern:  /dialog/
-    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:dialog }
+mobile_exit_with_infos:
+    pattern:  /exit/{type}/{name}/{title}/{episode}
+    defaults: { _controller: SkreenHouseFactoryMobileBundle:Main:redirect, episode: null }
+    requirements:
+        type: "[^/]+"
+        target: "[^/]+"
+        title: "[^/]+"

@@ -230,34 +230,49 @@ class MainController extends Controller
       $this->varnish($response);
       return $response;
     }
-    
+
     /**
     *
     */
     public function programAction(Request $request)
     {
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
-      $program = $api->fetch('program/'.$request->get('id'), 
-                           array(
-                             'img_width' => 300,
-                             'img_height' => 400,
-                             'with_offers' => true,
-                             'with_icsfile' => true,
-                             'with_teaser' => true,
-                             'with_player' => true,
-                             'with_metadata' => true,
-                             //'player' => 'hls',
-                             'quality' => 'HQ'
-                           ));
+      $program = $api->fetch('program/'.$request->get('id'), array(
+       'img_width' => 300,
+       'img_height' => 400,
+       'with_offers' => true,
+       'with_icsfile' => true,
+       'with_teaser' => true,
+       'with_player' => true,
+       'with_metadata' => true,
+       //'player' => 'hls',
+       'quality' => 'HQ',
+       'redirect_context' => 'mobile',
+     ));
       //echo $api->url;
-      //print_r($program->boutons);
+      //print_r($program->offers);exit();
       $response = $this->render('SkreenHouseFactoryMobileBundle:Main:program.html.twig', array(
-               'program' => $program,
-               'offers' => array(//'deportes' => 'Sur mySkreen', 
-                                 'plays' => 'VOD & Replay', 
-                                 'broadcasts' => 'A la télé', 
-                                 'theaters' => 'Au cinéma')
-             ));
+        'program' => $program,
+        'offers' => array(
+         //'deportes' => 'Sur mySkreen', 
+         'plays' => 'VOD & Replay', 
+         'broadcasts' => 'A la télé', 
+         'theaters' => 'Au cinéma'
+        )
+      ));
+
+      $this->varnish($response);
+      return $response;
+    }
+
+    /**
+    *
+    */
+    public function redirectAction(Request $request)
+    {
+      $response = $this->render('SkreenHouseFactoryMobileBundle:Main:exit.html.twig', array(
+       'url' => $request->get('url')
+      ));
 
       $this->varnish($response);
       return $response;
