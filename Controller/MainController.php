@@ -50,7 +50,7 @@ class MainController extends Controller
                    'tnt_only' => true
                 ));*/
       $result = $api->fetch('schedule/epg', array(
-                   'timestamp' => strtotime(date('Y-m-d 20:45:00')),
+                   'timestamp' => strtotime(date('Y-m-d 20:37:00')),
                    'duration' => 210
                 ));
       //echo $api->url;

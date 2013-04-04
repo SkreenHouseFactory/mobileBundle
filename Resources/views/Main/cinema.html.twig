@@ -60,9 +60,7 @@
 $('#trigger-geoloc-program').on('click', function(){
   console.log('script cinema', API.cookie('latlng'));
   if (!API.cookie('latlng')) {
-    setTimeout(function(){
-      UI.loadCinemas('{{ path('mobile_cinema') }}');
-    }, 1000);
+    UI.loadCinemas('{{ path('mobile_cinema') }}');
   } else if (document.location.href.indexOf('?latlng=') == -1) {
     $.mobile.changePage( '{{ path('mobile_cinema') }}?latlng=' + API.cookie('latlng') );
   }
