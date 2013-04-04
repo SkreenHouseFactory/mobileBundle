@@ -9,7 +9,8 @@ $(document).bind('mobileinit', function(){
 $(document).bind('pagechange', function( e, data ) {
   console.log('script', 'bind pagechange', document.location.href);
   //history
-  if (!document.location.href.match(/\/m\/[\w]+/gi)) { //on n'initialize pas sur route
+  if (document.location.href.match(/\/m\/route/gi) ||
+      !document.location.href.match(/\/m\/[\w]+/gi)) { //on n'initialize pas sur route
     console.log('script', 'bind pagechange', 'home');
     $('[role="navigation"] li').css('width','33.333%');
     $('#historyback').hide();

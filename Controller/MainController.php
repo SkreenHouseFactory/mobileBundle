@@ -42,7 +42,6 @@ class MainController extends Controller
     */
     public function tvAction(Request $request)
     {
-
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json', 2);
       /*$result = $api->fetch('schedule/tvreplay', array(
                    'date' => 'Ce soir',
@@ -51,8 +50,8 @@ class MainController extends Controller
                    'tnt_only' => true
                 ));*/
       $result = $api->fetch('schedule/epg', array(
-                   'timestamp' => strtotime(date('Y-m-d 20:00:00')),
-                   'duration' => 240
+                   'timestamp' => strtotime(date('Y-m-d 20:45:00')),
+                   'duration' => 210
                 ));
       //echo $api->url;
       $response = $this->render('SkreenHouseFactoryMobileBundle:Main:tv.html.twig', array(
