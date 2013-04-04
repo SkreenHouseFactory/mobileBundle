@@ -8,14 +8,17 @@
 <div id="view-cinemaprogram">
 <form action="{{ path('mobile_cinemaprogram', {id: program.id}) }}" method="get">
 <input name="q" id="searchinput1" placeholder="75005, Marseille, UGC bastille, etc" value="{{ app.request.get('q') }}" type="search" />
-<input type="submit" data-theme="a" value="Lancer la recherche" />
+<input type="submit" value="Lancer la recherche" />
 </form>
+
+{% if app.request.get('latlng') is null %}
+<a id="trigger-geoloc" href="{{ path('mobile_cinemaprogram', {id: program.id}) }}" data-role="button" data-icon="check">Trouver une séance près d'ici</a>
+{% endif %}
 {% if app.request.get('q') %}
-<a href="{{ path('mobile_cinemaprogram', {id: program.id}) }}" data-theme="a" data-role="button" data-icon="check">Trouver une séance près d'ici</a>
 <br/>
 <br/>
 <h3>Recherche : {{ app.request.get('q') }}</h3>
-{% else %}
+{% elseif app.request.get('latlng') %}
 <br/>
 <br/>
 {% if app.request.get('cinema_id') is null %}
@@ -23,54 +26,44 @@
 {% endif %}
 {% endif %}
 <ul id="cinemas" data-role="listview" data-divider-theme="a" data-inset="true">
-	{% if cinemas %}
-		{% if cinemas|length == 0 %}
-			<li data-theme="c">
-				<a href="#">
-					Aucun cinéma trouvé
-				</a>
-			</li>
-		{% else %}
-			{% for cinema in cinemas %}
-				{% if cinema.adress is defined %}
-					<li data-role="list-divider" role="heading">
-						<small>{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
-						{{ cinema.name }}
-					</li>
-					{% for day in days if attribute(cinema.schedules[0].horaires, day) is defined %}
-						<li data-theme="c">
-							<small>{{ attribute(cinema.schedules[0].horaires, day)|replace({',': ', '}) }}</small>
-							{{ day }}
-						</li>
-					{% endfor %}
-				{% endif %}
-			{% endfor %}
-		{% endif %}
-	{% endif %}
+  {% if cinemas %}
+    {% if cinemas|length == 0 %}
+      <li data-theme="c">
+        <a href="#">Aucun cinéma trouvé</a>
+      </li>
+    {% else %}
+      {% for cinema in cinemas %}
+        {% if cinema.adress is defined %}
+          <li data-role="list-divider" role="heading">
+            <small>{{ cinema.adress }} {{ cinema.city }} {{ cinema.zip_code }}</small>
+            {{ cinema.name }}
+          </li>
+          {% for day in days if attribute(cinema.schedules[0].horaires, day) is defined %}
+            <li data-theme="c">
+              <small>{{ attribute(cinema.schedules[0].horaires, day)|replace({',': ', '}) }}</small>
+              {{ day }}
+            </li>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endif %}
 </ul>
 <br/>
-<a data-role="button" data-theme="a" href="{{ path('mobile_program', {id: program.id}) }}">{{ program.title }} : voir la bande annonce</a>
+<a data-role="button" href="{{ path('mobile_program', {id: program.id}) }}">{{ program.title }} : voir la bande annonce</a>
 </div>
 
-{% if app.request.get('q') is null and app.request.get('cinema_id') is null %}
 <script>
-$(document).ready(function(){
-	if (typeof viewCinemaProgramInitialized == 'undefined') {
-
-		$(document).bind('pagechange', function(){
-			if ($('#view-cinemaprogram').length > 0) {
-				viewCinemaProgramInitialized = true;
-				if (!API.cookie('latlng')) {
-					setTimeout(function(){
-						UI.loadCinemas('{{ path('mobile_cinemaprogram', {id: program.id}) }}');
-					}, 1000);
-				} else if (document.location.href.indexOf('?latlng=') == -1) {
-					$.mobile.changePage( '{{ path('mobile_cinemaprogram', {id: program.id}) }}?latlng='+API.cookie('latlng') );
-				}
-			}
-		});
-	}
+//$(document).ready(function(){
+$('#trigger-geoloc').on('click', function(){
+  if (!API.cookie('latlng')) {
+    setTimeout(function(){
+      UI.loadCinemas('{{ path('mobile_cinemaprogram', {id: program.id}) }}');
+    }, 1000);
+  } else if (document.location.href.indexOf('?latlng=') == -1) {
+    $.mobile.changePage( '{{ path('mobile_cinemaprogram', {id: program.id}) }}?latlng=' + API.cookie('latlng') );
+  }
+  return false;
 });
 </script>
-{% endif %}
 {% endblock %}

@@ -9,29 +9,29 @@ $(document).bind('mobileinit', function(){
 $(document).bind('pagechange', function( e, data ) {
   console.log('script', 'bind pagechange', document.location.href);
   //history
-  if (!document.location.href.match(/\/m\/[.*]+/gi)) { //on n'initialize pas sur route
-
+  if (!document.location.href.match(/\/m\/[\w]+/gi)) { //on n'initialize pas sur route
+    console.log('script', 'bind pagechange', 'home');
     $('[role="navigation"] li').css('width','33.333%');
     $('#historyback').hide();
     $('[role="navigation"] li#tohome').hide();
   } else {
+    console.log('script', 'bind pagechange', 'history');
     //history
     setTimeout(function(){
       //console.log('script', 'bind pagechange', 'history setTimeout', history.state, document.location.href);
       console.log('script', 'bind pagechange', 'location ->', document.location);
       //API.insertIndexedDb('skhf', 'm_lastpage', {id: 0, url: document.location.href});
+/*
       if (history.state &&
           (history.state.initialHref == document.location.href ||
            history.state.initialHref == document.location.href + '/')) {
         console.log('pageshow', history.state.initialHref, document.location.href);
-        $('[role="navigation"] li').css('width','33.333%');
-        $('[role="navigation"] li#tohome').hide();
-        $('body a#historyback').hide();
         //console.log('pageshow', 'hide #historyback', $('#historyback'));
-      } else {
-        $('[role="navigation"] li').css('width','25%');
-        $('body a#historyback').show();
       }
+*/
+
+      $('[role="navigation"] li').css('width','25%');
+      $('body a#historyback').show();
     }, 500);
   }
   //flagged
@@ -88,11 +88,7 @@ $(document).on('click', '#route-m', function(e){
 })
 
 $(document).on('click', '#historyback', function(){
-  if (document.location.href.indexOf('latlng=') != -1) {
-    history.go(-2);
-  } else {
-    history.back();
-  } 
+  history.go(-1);
   return false;
 })
 $(document).on('click', '.fav', function(){

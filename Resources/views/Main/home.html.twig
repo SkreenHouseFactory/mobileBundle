@@ -8,10 +8,10 @@
 </div>
 <form action="{{ path('mobile_search', {'q':''}) }}" method="get">
 <input name="q" id="searchinput1" placeholder="Un film, une émission, un acteur, etc" value="" type="search" />
-<input type="submit"  value="Lancer la recherche" />
+{#<input type="submit"  value="Lancer la recherche" />#}
 </form>
 <br/>
-<a href="{{ path('mobile_selection') }}" data-iconpos="right" data-role="button"  data-icon="arrow-r">A voir en ce moment : TV, Replay, Vod et Cinéma</a>
+<a href="{{ path('mobile_selection') }}" data-iconpos="right" data-role="button"  data-icon="arrow-r">En ce moment : TV, Replay, Vod et Cinéma</a>
 <br/>
 <a id="route-www" data-iconpos="right" data-role="button"  data-icon="arrow-r">Accéder à mySkreen.com</a>
 
