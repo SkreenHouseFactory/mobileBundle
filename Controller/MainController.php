@@ -153,7 +153,8 @@ class MainController extends Controller
       $api   = new ApiManager($this->container->getParameter('kernel.environment'), '.json');
       if ($request->get('id')) {
         $result = $api->fetch('www/slider/pack/' . $request->get('id'), array(
-                    'with_programs' => true
+                    'with_programs' => true,
+                    'with_onglet' => true
                   ));
         //echo $api->url;
         $response = $this->render('SkreenHouseFactoryMobileBundle:Main:selection.html.twig', array(

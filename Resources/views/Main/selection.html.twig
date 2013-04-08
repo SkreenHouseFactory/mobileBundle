@@ -16,6 +16,22 @@
   {% endfor %}
 </ul>
 {% else %}
+<div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="panel-related">
+<ul data-role="listview" data-divider-theme="a" data-theme="a" data-inset="true">
+  <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-a ui-first-child">
+    Notre sélection de films en VOD
+  </li>
+  {% for p in pack.onglet.sliders %}
+  <li data-theme="a" data-icon="arrow-l" data-iconpos="left">
+    <a data-iconpos="left" href="{{ path('mobile_selection', {id: p.id }) }}">
+      {{ p.title }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+</div>
+<a href="#panel-related" data-role="button">Toutes les sélections</a>
+
 <ul id="selection" data-role="listview" data-divider-theme="a" data-inset="true">
   <li data-role="list-divider" role="heading">
     {{ pack.name|striptags }}

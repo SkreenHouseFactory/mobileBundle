@@ -75,10 +75,13 @@ $(document).on('click', '#route-m', function(e){
   //alert('#route-m');
   e.preventDefault();
   //API.cookie('mobile', 'allow');
-  var match = document.referrer.match(/\/(film|serie|documentaire|emission|court-metrage|concert|spectacle|theatre)\/[\w|-]+\/[\d]+/gi);
-  if (match) {
-    console.log('match', match);
-    var ids = match[match.length - 1].match(/\/[\d]+/gi);
+  var match_exit = document.referrer.match(/\/exit\/[.*]+/gi);
+  var match_program = document.referrer.match(/\/(film|serie|documentaire|emission|court-metrage|concert|spectacle|theatre)\/[\w|-]+\/[\d]+/gi);
+  if (match_exit) {
+    $.mobile.changePage(API.config.v3_root + '/m/exit/' + match_program[match_program.length - 1]);
+  } else if (match_program) {
+    console.log('match', match_program);
+    var ids = match_program[match_program.length - 1].match(/\/[\d]+/gi);
     console.log('ids', ids);
     var id = ids[ids.length - 1];
     $.mobile.changePage(API.config.v3_root + '/m/program' + id);
