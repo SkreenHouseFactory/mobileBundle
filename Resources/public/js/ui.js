@@ -134,10 +134,10 @@ UI = {
   error: function(){
   },
   loadCinemas: function(url){
-    alert('UI.loadCinemas');
+    //console.log('UI.loadCinemas');
     console.log('UI.loadCinemas');
     API.geolocation(function(position){
-      alert('UI.loadCinemas geolocation CALLBACK');
+      //console.log('UI.loadCinemas geolocation CALLBACK');
       $.mobile.changePage( url+'?latlng=' + position);
     },function(msg, code){
       console.log('UI.loadCinemas', 'error_code:', code);
