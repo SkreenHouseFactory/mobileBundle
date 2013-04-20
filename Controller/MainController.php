@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 use SkreenHouseFactory\v3Bundle\Api\ApiManager;
 
+
+use \stdClass;
+
 class MainController extends Controller
 {
     protected function varnish($response){
@@ -249,6 +252,13 @@ class MainController extends Controller
        'quality' => 'HQ',
        'redirect_context' => 'mobile',
      ));
+     if (!$program->teaser && 
+         isset($program->offers->plays) &&
+         isset($program->offers->plays[0]) &&
+         $program->offers->plays[0]->deporte) {
+       $program->teaser = new stdClass();
+       $program->teaser->id = $program->offers->plays[0]->deporte;
+     }
       //echo $api->url;
       //print_r($program->offers);exit();
       $response = $this->render('SkreenHouseFactoryMobileBundle:Main:program.html.twig', array(
